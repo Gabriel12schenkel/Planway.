@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace de Fornecedores - Impulso Empreendedor</title>
+    <!-- Link para a fonte Inter do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos CSS globais e específicos da página */
+        :root {
+            --cor-principal: rgb(144, 238, 144); /* Verde Claro */
+            --cor-principal-claro: rgb(180, 255, 180);
+            --cor-texto-escuro: #333;
+            --cor-texto-claro: #f0f0f0;
+            --cor-fundo-claro: #ffffff;
+            --cor-fundo-escuro: #f7f7f7;
+            --sombra-card: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicao-suave: all 0.3s ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--cor-fundo-escuro);
+            color: var(--cor-texto-escuro);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Estrutura principal da aplicação */
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Seção de cabeçalho (Header) */
+        .header {
+            background-color: var(--cor-principal-claro);
+            padding: 1.5rem 1rem;
+            box-shadow: var(--sombra-card);
+            text-align: center;
+            border-bottom: 3px solid var(--cor-principal);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-texto-claro); /* Texto branco */
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 0.5rem;
+        }
+
+        /* Layout principal do conteúdo - área principal */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            border: 1px solid var(--cor-principal-claro);
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+            display: flex; /* Para flexibilidade do layout interno */
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Estilo comum para seções */
+        .marketplace-section {
+            background-color: var(--cor-fundo-claro);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+        }
+
+        .marketplace-section h2 {
+            font-size: 2rem;
+            color: var(--cor-principal);
+            margin-top: 0;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 2px solid var(--cor-principal-claro);
+        }
+
+        /* Filtros do Marketplace */
+        .filter-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: var(--cor-fundo-escuro);
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal-claro);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto-escuro);
+            font-weight: 600;
+        }
+
+        .filter-container input[type="text"],
+        .filter-container select {
+            width: calc(100% - 20px); /* Ajusta para padding */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            background-color: var(--cor-fundo-claro);
+            color: var(--cor-texto-escuro);
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-container input[type="text"]:focus,
+        .filter-container select:focus {
+            outline: none;
+            border-color: var(--cor-principal);
+            box-shadow: 0 0 0 3px rgba(144, 238, 144, 0.5);
+        }
+
+        /* Lista de Fornecedores */
+        .supplier-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .supplier-card {
+            background-color: var(--cor-fundo-claro);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--sombra-card);
+            border: 1px solid var(--cor-principal-claro);
+            transition: var(--transicao-suave);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .supplier-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border-color: var(--cor-principal);
+        }
+
+        .supplier-card h3 {
+            color: var(--cor-principal);
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .supplier-card p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .supplier-card strong {
+            color: var(--cor-texto-escuro);
+        }
+
+        .supplier-card .contact-info {
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .supplier-card .ratings {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #ffc107; /* Cor das estrelas */
+        }
+
+        .supplier-card .ratings span.stars {
+            margin-right: 0.5rem;
+        }
+
+        .supplier-card .ratings span.average-rating {
+            font-weight: 600;
+            color: var(--cor-texto-escuro);
+        }
+
+        /* Mensagem de nenhum fornecedor encontrado */
+        .no-suppliers-message {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            padding: 3rem;
+            background-color: var(--cor-fundo-escuro);
+            border-radius: 10px;
+            border: 1px dashed var(--cor-principal-claro);
+            margin-top: 2rem;
+        }
+
+        /* Rodapé (Footer) */
+        .footer {
+            background-color: var(--cor-texto-escuro);
+            color: var(--cor-texto-claro);
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            margin-top: auto; /* Garante que o footer fique no final da página */
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        /* Mensagem flutuante (para feedback de usuário) */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            font-weight: 500;
+        }
+        .message-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .main-content {
+                padding: 1.5rem 0.5rem;
+            }
+            .marketplace-section {
+                padding: 1.5rem;
+            }
+            .marketplace-section h2 {
+                font-size: 1.8rem;
+            }
+            .filter-container {
+                grid-template-columns: 1fr;
+            }
+            .supplier-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .marketplace-section h2 {
+                font-size: 1.6rem;
+            }
+            .filter-container {
+                padding: 1rem;
+            }
+            .filter-container input[type="text"],
+            .filter-container select {
+                font-size: 0.85rem;
+            }
+            .supplier-card {
+                padding: 1rem;
+            }
+            .supplier-card h3 {
+                font-size: 1.3rem;
+            }
+            .supplier-card p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+  <nav style="
+    background: linear-gradient(90deg, rgb(144, 238, 144), rgb(34, 139, 34));
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+">
+  <ul style="
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      gap: 30px;
+  ">
+    <li><a href="/inicio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Início</a></li>
+    <li><a href="/planejamento" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Planejamento</a></li>
+    <li><a href="/financeiro" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Financeiro</a></li>
+    <li><a href="/marketing" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Marketing</a></li>
+    <li><a href="/seja-socio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Seja Sócio</a></li>
+    <li><a href="/fornecedor" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Fornecedores</a></li>
+  </ul>
+</nav>
+
+
+
+</head>
+<body>
+    <div id="root">
+        <!-- Cabeçalho Principal -->
+        <header class="header">
+            <h1>Impulso Empreendedor</h1>
+            <p>Seu guia para conectar e prosperar com os melhores fornecedores.</p>
+        </header>
+
+        <!-- Seção Principal de Conteúdo -->
+        <main class="main-content">
+            <div class="marketplace-section">
+                <h2>Marketplace de Fornecedores</h2>
+                <p>Encontre fornecedores confiáveis e de qualidade para o seu negócio.</p>
+
+                <!-- Filtros Inteligentes -->
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="searchSupplier">Buscar Fornecedor:</label>
+                        <input type="text" id="searchSupplier" placeholder="Nome do fornecedor...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterSegment">Segmento:</label>
+                        <select id="filterSegment">
+                            <option value="">Todos os Segmentos</option>
+                            <!-- Options will be populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterLocation">Localização:</label>
+                        <select id="filterLocation">
+                            <option value="">Todas as Localizações</option>
+                            <!-- Options will be populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterRating">Avaliação Mínima:</label>
+                        <select id="filterRating">
+                            <option value="">Todas</option>
+                            <option value="5">5 Estrelas</option>
+                            <option value="4">4 Estrelas ou mais</option>
+                            <option value="3">3 Estrelas ou mais</option>
+                            <option value="2">2 Estrelas ou mais</option>
+                            <option value="1">1 Estrela ou mais</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Lista de Fornecedores -->
+                <div id="supplierList" class="supplier-list">
+                    <!-- Fornecedores serão carregados aqui pelo JavaScript -->
+                </div>
+
+                <!-- Mensagem de Nenhum Fornecedor Encontrado -->
+                <div id="noSuppliersMessage" class="no-suppliers-message" style="display: none;">
+                    Nenhum fornecedor encontrado com os critérios de busca.
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <p>&copy; 2025 Impulso Empreendedor. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Dados fictícios dos fornecedores (simulando um banco de dados)
+        const suppliersData = [
+            {
+                id: 's001',
+                name: 'Moda Essencial Atacado',
+                segment: 'Roupas e Têxteis',
+                contact: 'contato@modaessencial.com.br',
+                phone: '(11) 98765-4321',
+                location: 'São Paulo, SP',
+                description: 'Fornecedor de roupas femininas e masculinas no atacado, com foco em tendências atuais e preços competitivos. Peças de alta qualidade para revenda.',
+                averageRating: 4.8,
+                totalRatings: 125,
+                services: ['Roupas Femininas', 'Roupas Masculinas', 'Acessórios']
+            },
+            {
+                id: 's002',
+                name: 'Orgânicos da Fazenda Feliz',
+                segment: 'Alimentos e Bebidas',
+                contact: 'vendas@fazendafeliz.com.br',
+                phone: '(21) 91234-5678',
+                location: 'Rio de Janeiro, RJ',
+                description: 'Produtor e distribuidor de alimentos orgânicos frescos: frutas, verduras, legumes e ovos. Entrega direta para estabelecimentos comerciais.',
+                averageRating: 4.9,
+                totalRatings: 98,
+                services: ['Frutas Orgânicas', 'Vegetais Orgânicos', 'Laticínios Naturais']
+            },
+            {
+                id: 's003',
+                name: 'Eletrônicos & Cia',
+                segment: 'Eletrônicos e Tecnologia',
+                contact: 'comercial@eletronicoscia.com',
+                phone: '(31) 97654-3210',
+                location: 'Belo Horizonte, MG',
+                description: 'Ampla variedade de eletrônicos, desde gadgets e acessórios até componentes para computadores. Importação e distribuição com garantia.',
+                averageRating: 4.5,
+                totalRatings: 210,
+                services: ['Smartphones', 'Acessórios Tech', 'Componentes PC']
+            },
+            {
+                id: 's004',
+                name: 'Marketing Digital Pro',
+                segment: 'Serviços de Marketing',
+                contact: 'atendimento@marketingpro.com',
+                phone: '(11) 99876-1234',
+                location: 'São Paulo, SP',
+                description: 'Agência especializada em marketing digital, oferecendo serviços de SEO, gestão de redes sociais, campanhas de tráfego pago e desenvolvimento de websites.',
+                averageRating: 4.7,
+                totalRatings: 80,
+                services: ['SEO', 'Mídias Sociais', 'Tráfego Pago', 'Criação de Sites']
+            },
+            {
+                id: 's005',
+                name: 'Embalagens Sustentáveis BR',
+                segment: 'Embalagens e Descartáveis',
+                contact: 'vendas@sustentaveisbr.com.br',
+                phone: '(41) 98765-0000',
+                location: 'Curitiba, PR',
+                description: 'Fornecedor de embalagens ecológicas e biodegradáveis para diversos setores, como alimentos, cosméticos e varejo. Personalização disponível.',
+                averageRating: 4.6,
+                totalRatings: 70,
+                services: ['Embalagens Biodegradáveis', 'Sacos Ecológicos', 'Descartáveis Sustentáveis']
+            },
+            {
+                id: 's006',
+                name: 'Software Solutions Integradas',
+                segment: 'Serviços de TI e Software',
+                contact: 'contato@softwaresgi.com',
+                phone: '(51) 99123-4567',
+                location: 'Porto Alegre, RS',
+                description: 'Desenvolvimento de softwares personalizados, sistemas de gestão (ERP/CRM) e consultoria em infraestrutura de TI para pequenas e médias empresas.',
+                averageRating: 4.7,
+                totalRatings: 60,
+                services: ['Desenvolvimento de Software', 'Sistemas ERP/CRM', 'Consultoria TI']
+            },
+            {
+                id: 's007',
+                name: 'Gráfica Expressa Qualidade',
+                segment: 'Gráficas e Impressão',
+                contact: 'orcamento@graficaexpressa.com',
+                phone: '(11) 91111-2222',
+                location: 'São Paulo, SP',
+                description: 'Serviços gráficos completos: cartões de visita, flyers, banners, embalagens e materiais promocionais. Agilidade e qualidade garantidas.',
+                averageRating: 4.4,
+                totalRatings: 150,
+                services: ['Cartões de Visita', 'Flyers', 'Banners', 'Material Promocional']
+            },
+            {
+                id: 's008',
+                name: 'Móveis Personalizados BH',
+                segment: 'Mobiliário e Decoração',
+                contact: 'vendas@moveisbh.com.br',
+                phone: '(31) 92345-6789',
+                location: 'Belo Horizonte, MG',
+                description: 'Criação e fabricação de móveis sob medida para escritórios, lojas e residências. Design moderno e funcionalidade.',
+                averageRating: 4.6,
+                totalRatings: 45,
+                services: ['Móveis Sob Medida', 'Design de Interiores', 'Montagem']
+            }
+        ];
+
+        // Referências aos elementos HTML
+        const searchSupplierInput = document.getElementById('searchSupplier');
+        const filterSegmentSelect = document.getElementById('filterSegment');
+        const filterLocationSelect = document.getElementById('filterLocation');
+        const filterRatingSelect = document.getElementById('filterRating');
+        const supplierListDiv = document.getElementById('supplierList');
+        const noSuppliersMessage = document.getElementById('noSuppliersMessage');
+
+        // --- Funções de Utilitário ---
+
+        /**
+         * Exibe uma mensagem flutuante na tela para feedback do usuário.
+         * Reutilizada da aba de Planejamento para consistência.
+         * @param {string} texto - O texto da mensagem a ser exibida.
+         * @param {number} duracao - Duração em milissegundos para a mensagem permanecer (padrão: 3000ms).
+         */
+        function exibirMensagem(texto, duracao = 3000) {
+            let mensagemDiv = document.querySelector('.message-box');
+            if (!mensagemDiv) {
+                mensagemDiv = document.createElement('div');
+                mensagemDiv.classList.add('message-box');
+                document.body.appendChild(mensagemDiv);
+            }
+
+            mensagemDiv.textContent = texto;
+            mensagemDiv.classList.add('show');
+
+            setTimeout(() => {
+                mensagemDiv.classList.remove('show');
+                setTimeout(() => {
+                    if (!mensagemDiv.classList.contains('show')) {
+                        mensagemDiv.remove();
+                    }
+                }, 500);
+            }, duracao);
+        }
+
+        /**
+         * Gera as estrelas de avaliação com base na nota média.
+         * @param {number} rating - A nota média (ex: 4.5).
+         * @returns {string} HTML com as estrelas.
+         */
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+            const emptyStars = 5 - fullStars - halfStar;
+
+            let starsHtml = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsHtml += '&#9733;'; // Estrela cheia
+            }
+            if (halfStar) {
+                starsHtml += '&#9734;'; // Estrela vazia (usando para meia, como alternativa simples)
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                starsHtml += '&#9734;'; // Estrela vazia
+            }
+            return starsHtml;
+        }
+
+        // --- Funções de População de Filtros ---
+
+        /**
+         * Popula os dropdowns de segmento e localização com base nos dados dos fornecedores.
+         */
+        function populateFilters() {
+            const segments = new Set();
+            const locations = new Set();
+
+            suppliersData.forEach(supplier => {
+                segments.add(supplier.segment);
+                locations.add(supplier.location);
+            });
+
+            // Popula Segmentos
+            filterSegmentSelect.innerHTML = '<option value="">Todos os Segmentos</option>';
+            Array.from(segments).sort().forEach(segment => {
+                const option = document.createElement('option');
+                option.value = segment;
+                option.textContent = segment;
+                filterSegmentSelect.appendChild(option);
+            });
+
+            // Popula Localizações
+            filterLocationSelect.innerHTML = '<option value="">Todas as Localizações</option>';
+            Array.from(locations).sort().forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location;
+                filterLocationSelect.appendChild(option);
+            });
+        }
+
+        // --- Funções de Renderização e Filtragem ---
+
+        /**
+         * Renderiza a lista de fornecedores com base nos filtros atuais.
+         */
+        function renderSuppliers() {
+            const searchTerm = searchSupplierInput.value.toLowerCase();
+            const selectedSegment = filterSegmentSelect.value;
+            const selectedLocation = filterLocationSelect.value;
+            const minRating = parseFloat(filterRatingSelect.value) || 0;
+
+            const filteredSuppliers = suppliersData.filter(supplier => {
+                const matchesSearch = supplier.name.toLowerCase().includes(searchTerm) ||
+                                      supplier.description.toLowerCase().includes(searchTerm) ||
+                                      supplier.services.some(service => service.toLowerCase().includes(searchTerm));
+
+                const matchesSegment = selectedSegment === '' || supplier.segment === selectedSegment;
+                const matchesLocation = selectedLocation === '' || supplier.location === selectedLocation;
+                const matchesRating = supplier.averageRating >= minRating;
+
+                return matchesSearch && matchesSegment && matchesLocation && matchesRating;
+            });
+
+            supplierListDiv.innerHTML = '';
+            if (filteredSuppliers.length > 0) {
+                filteredSuppliers.forEach(supplier => {
+                    const supplierCard = document.createElement('div');
+                    supplierCard.classList.add('supplier-card');
+                    supplierCard.innerHTML = `
+                        <h3>${supplier.name}</h3>
+                        <p><strong>Segmento:</strong> ${supplier.segment}</p>
+                        <p>${supplier.description}</p>
+                        <div class="contact-info">
+                            <p><strong>Contato:</strong> ${supplier.contact}</p>
+                            <p><strong>Telefone:</strong> ${supplier.phone}</p>
+                            <p><strong>Localização:</strong> ${supplier.location}</p>
+                        </div>
+                        <div class="ratings">
+                            <span class="stars">${generateStars(supplier.averageRating)}</span>
+                            <span class="average-rating">${supplier.averageRating.toFixed(1)} (${supplier.totalRatings} avaliações)</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Serviços:</strong> ${supplier.services.join(', ')}</p>
+                    `;
+                    supplierListDiv.appendChild(supplierCard);
+                });
+                noSuppliersMessage.style.display = 'none'; // Esconde a mensagem de nenhum fornecedor
+            } else {
+                noSuppliersMessage.style.display = 'block'; // Mostra a mensagem de nenhum fornecedor
+            }
+        }
+
+        // --- Inicialização e Event Listeners ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateFilters(); // Popula os filtros ao carregar a página
+            renderSuppliers(); // Renderiza todos os fornecedores inicialmente
+        });
+
+        // Adiciona event listeners para os filtros
+        searchSupplierInput.addEventListener('input', renderSuppliers);
+        filterSegmentSelect.addEventListener('change', renderSuppliers);
+        filterLocationSelect.addEventListener('change', renderSuppliers);
+        filterRatingSelect.addEventListener('change', renderSuppliers);
+
+        // JavaScript para rolagem suave (mantido para consistência)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId === '#topo' ? 'body' : targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fornecedor: Orgânicos da Fazenda Feliz - Impulso Empreendedor</title>
+    <!-- Link para a fonte Inter do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos CSS globais e específicos da página */
+        :root {
+            --cor-principal: rgb(144, 238, 144); /* Verde Claro */
+            --cor-principal-claro: rgb(180, 255, 180);
+            --cor-texto-escuro: #333;
+            --cor-texto-claro: #f0f0f0;
+            --cor-fundo-claro: #ffffff;
+            --cor-fundo-escuro: #f7f7f7;
+            --sombra-card: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicao-suave: all 0.3s ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--cor-fundo-escuro);
+            color: var(--cor-texto-escuro);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Estrutura principal da aplicação */
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Seção de cabeçalho (Header) */
+        .header {
+            background-color: var(--cor-principal-claro);
+            padding: 1.5rem 1rem;
+            box-shadow: var(--sombra-card);
+            text-align: center;
+            border-bottom: 3px solid var(--cor-principal);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-texto-claro); /* Texto branco */
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 0.5rem;
+        }
+
+        /* Layout principal do conteúdo - área principal */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 1rem;
+            max-width: 1000px; /* Um pouco mais estreito para focar no conteúdo */
+            margin: 0 auto;
+            width: 100%;
+            border: 1px solid var(--cor-principal-claro);
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Estilo comum para seções */
+        .supplier-detail-section {
+            background-color: var(--cor-fundo-claro);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+        }
+
+        .supplier-detail-section h2 {
+            font-size: 2rem;
+            color: var(--cor-principal);
+            margin-top: 0;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 2px solid var(--cor-principal-claro);
+        }
+
+        /* Informações do Fornecedor */
+        .supplier-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .supplier-info p strong {
+            color: var(--cor-principal);
+        }
+
+        .ratings {
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            color: #ffc107; /* Cor das estrelas */
+        }
+
+        .ratings span.stars {
+            margin-right: 0.5rem;
+        }
+
+        .ratings span.average-rating {
+            font-weight: 600;
+            color: var(--cor-texto-escuro);
+        }
+
+        /* Produtos em Destaque */
+        .featured-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .product-card {
+            background-color: var(--cor-fundo-escuro);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal-claro);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .product-card h4 {
+            color: var(--cor-principal);
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        .product-card p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .product-card .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--cor-texto-escuro);
+            margin-top: 0.8rem;
+        }
+
+        /* Benefícios e Como Pedir */
+        .benefits-order-section h3 {
+            font-size: 1.5rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            border-bottom: 1px dashed var(--cor-principal-claro);
+            padding-bottom: 0.5rem;
+        }
+
+        .benefits-order-section ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefits-order-section ul li {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Botão Voltar */
+        .back-button-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .back-button {
+            display: inline-block;
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-escuro);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transicao-suave);
+            box-shadow: var(--sombra-card);
+        }
+        .back-button:hover {
+            background-color: var(--cor-principal-claro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+
+        /* Rodapé (Footer) */
+        .footer {
+            background-color: var(--cor-texto-escuro);
+            color: var(--cor-texto-claro);
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        /* Mensagem flutuante (para feedback de usuário) */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            font-weight: 500;
+        }
+        .message-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .main-content {
+                padding: 1.5rem 0.5rem;
+            }
+            .supplier-detail-section {
+                padding: 1.5rem;
+            }
+            .supplier-detail-section h2 {
+                font-size: 1.8rem;
+            }
+            .featured-products {
+                grid-template-columns: 1fr;
+            }
+            .supplier-info p, .benefits-order-section ul li {
+                font-size: 0.9rem;
+            }
+            .product-card h4 {
+                font-size: 1.1rem;
+            }
+            .product-card .price {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+            .supplier-detail-section h2 {
+                font-size: 1.6rem;
+            }
+            .back-button {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!-- Cabeçalho Principal -->
+        <header class="header">
+            <h1>Impulso Empreendedor</h1>
+            <p>Conectando você aos melhores parceiros de negócio.</p>
+        </header>
+
+        <!-- Seção Principal de Conteúdo -->
+        <main class="main-content">
+            <div class="supplier-detail-section">
+                <h2 id="supplierName">Detalhes do Fornecedor</h2>
+
+                <div class="supplier-info">
+                    <p><strong>Segmento:</strong> <span id="supplierSegment"></span></p>
+                    <p><strong>Descrição:</strong> <span id="supplierDescription"></span></p>
+                    <p><strong>Contato:</strong> <span id="supplierContact"></span></p>
+                    <p><strong>Telefone:</strong> <span id="supplierPhone"></span></p>
+                    <p><strong>Localização:</strong> <span id="supplierLocation"></span></p>
+                    <div class="ratings">
+                        <span class="stars" id="supplierStars"></span>
+                        <span class="average-rating" id="supplierRatingText"></span>
+                    </div>
+                    <p><strong>Serviços Principais:</strong> <span id="supplierServices"></span></p>
+                </div>
+
+                <div class="benefits-order-section">
+                    <h3>Produtos em Destaque</h3>
+                    <div id="featuredProductsList" class="featured-products">
+                        <!-- Produtos em destaque serão carregados aqui pelo JavaScript -->
+                    </div>
+
+                    <h3>Benefícios para seu Negócio</h3>
+                    <ul id="supplierBenefits">
+                        <li><strong>Frescor e Qualidade Garantida:</strong> Produtos colhidos no ponto certo e entregues com a máxima qualidade, garantindo a satisfação do seu cliente final.</li>
+                        <li><strong>Variedade Orgânica Certificada:</strong> Ampla gama de frutas, verduras, legumes e ovos orgânicos, todos com certificação de origem e produção sustentável.</li>
+                        <li><strong>Preços Competitivos no Atacado:</strong> Condições especiais para compras em volume, otimizando seus custos e aumentando sua margem de lucro.</li>
+                        <li><strong>Logística de Entrega Otimizada:</strong> Entregas programadas e eficientes para garantir que você receba os produtos frescos e no prazo, ideal para bares, restaurantes e empórios.</li>
+                        <li><strong>Suporte Personalizado:</strong> Equipe dedicada para auxiliar na escolha dos melhores produtos para o seu tipo de negócio e tirar todas as suas dúvidas.</li>
+                        <li><strong>Compromisso com a Sustentabilidade:</strong> Parceria com um fornecedor que se preocupa com o meio ambiente e práticas agrícolas responsáveis.</li>
+                    </ul>
+
+                    <h3>Como Fazer um Pedido</h3>
+                    <ul id="howToOrder">
+                        <li><strong>1. Cadastro:</strong> Entre em contato via telefone ou e-mail para realizar seu cadastro como cliente B2B.</li>
+                        <li><strong>2. Catálogo Semanal:</strong> Receba nosso catálogo de produtos disponíveis e preços atualizados semanalmente.</li>
+                        <li><strong>3. Pedido Mínimo:</strong> Verifique os valores ou quantidades mínimas para entregas no atacado.</li>
+                        <li><strong>4. Agendamento:</strong> Escolha a melhor data e horário para o recebimento de seus produtos.</li>
+                        <li><strong>5. Pagamento:</strong> Opções de pagamento flexíveis, como boleto faturado ou transferência bancária.</li>
+                        <li><strong>Dica:</strong> Planeje seus pedidos com antecedência para garantir a disponibilidade dos produtos mais procurados.</li>
+                    </ul>
+                </div>
+
+                <div class="back-button-container">
+                    <a href="#" class="back-button" onclick="history.back()">Voltar para a Lista de Fornecedores</a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <p>&copy; 2025 Impulso Empreendedor. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Dados do fornecedor selecionado (Hardcoded para demonstração)
+        // Em uma aplicação real, estes dados seriam passados via URL ou carregados dinamicamente
+        const selectedSupplierData = {
+            id: 's002',
+            name: 'Orgânicos da Fazenda Feliz',
+            segment: 'Alimentos e Bebidas',
+            contact: 'vendas@fazendafeliz.com.br',
+            phone: '(21) 91234-5678',
+            location: 'Rio de Janeiro, RJ',
+            description: 'Produtor e distribuidor de alimentos orgânicos frescos, com uma vasta seleção de frutas, verduras, legumes e ovos. Nosso compromisso é com a qualidade do campo à sua mesa, promovendo saúde e sustentabilidade. Atendemos bares, restaurantes, empórios e outros estabelecimentos que valorizam produtos naturais e sem agrotóxicos.',
+            averageRating: 4.9,
+            totalRatings: 98,
+            services: ['Frutas Orgânicas', 'Vegetais Orgânicos', 'Legumes Orgânicos', 'Ovos Caipiras'],
+            featuredProducts: [
+                { name: 'Cesta de Verduras Orgânicas (Mix)', description: 'Mix selecionado de verduras da estação.', price: 45.00 },
+                { name: 'Tomate Cereja Orgânico (Kg)', description: 'Tomates pequenos e saborosos, ideais para saladas.', price: 18.50 },
+                { name: 'Ovos Caipiras Grandes (Dúzia)', description: 'Ovos frescos de galinhas criadas soltas.', price: 22.00 },
+                { name: 'Morangos Orgânicos (Bandeja 500g)', description: 'Morangos doces e suculentos, sem agrotóxicos.', price: 28.90 }
+            ]
+        };
+
+        // Referências aos elementos HTML
+        const supplierNameElem = document.getElementById('supplierName');
+        const supplierSegmentElem = document.getElementById('supplierSegment');
+        const supplierDescriptionElem = document.getElementById('supplierDescription');
+        const supplierContactElem = document.getElementById('supplierContact');
+        const supplierPhoneElem = document.getElementById('supplierPhone');
+        const supplierLocationElem = document.getElementById('supplierLocation');
+        const supplierStarsElem = document.getElementById('supplierStars');
+        const supplierRatingTextElem = document.getElementById('supplierRatingText');
+        const supplierServicesElem = document.getElementById('supplierServices');
+        const featuredProductsList = document.getElementById('featuredProductsList');
+
+
+        // --- Funções de Utilitário ---
+
+        /**
+         * Gera as estrelas de avaliação com base na nota média.
+         * @param {number} rating - A nota média (ex: 4.5).
+         * @returns {string} HTML com as estrelas.
+         */
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+            const emptyStars = 5 - fullStars - halfStar;
+
+            let starsHtml = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsHtml += '&#9733;'; // Estrela cheia
+            }
+            if (halfStar) {
+                starsHtml += '&#9734;'; // Estrela vazia (usando para meia, como alternativa simples, ou um ícone de meia estrela se disponível)
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                starsHtml += '&#9734;'; // Estrela vazia
+            }
+            return starsHtml;
+        }
+
+        /**
+         * Carrega e exibe os detalhes do fornecedor.
+         */
+        function loadSupplierDetails() {
+            supplierNameElem.textContent = selectedSupplierData.name;
+            supplierSegmentElem.textContent = selectedSupplierData.segment;
+            supplierDescriptionElem.textContent = selectedSupplierData.description;
+            supplierContactElem.textContent = selectedSupplierData.contact;
+            supplierPhoneElem.textContent = selectedSupplierData.phone;
+            supplierLocationElem.textContent = selectedSupplierData.location;
+            supplierStarsElem.innerHTML = generateStars(selectedSupplierData.averageRating);
+            supplierRatingTextElem.textContent = `${selectedSupplierData.averageRating.toFixed(1)} (${selectedSupplierData.totalRatings} avaliações)`;
+            supplierServicesElem.textContent = selectedSupplierData.services.join(', ');
+
+            // Carrega produtos em destaque
+            featuredProductsList.innerHTML = ''; // Limpa a lista existente
+            selectedSupplierData.featuredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card');
+                productCard.innerHTML = `
+                    <h4>${product.name}</h4>
+                    <p>${product.description}</p>
+                    <p class="price">${product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                `;
+                featuredProductsList.appendChild(productCard);
+            });
+        }
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', loadSupplierDetails);
+    </script>
+</body>
+</html>

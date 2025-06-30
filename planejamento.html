@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planejamento - Impulso Empreendedor</title>
+    <!-- Link para a fonte Inter do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos CSS globais e específicos da página */
+        :root {
+            --cor-principal: rgb(144, 238, 144); /* Verde Claro */
+            --cor-principal-claro: rgb(180, 255, 180);
+            --cor-texto-escuro: #333;
+            --cor-texto-claro: #f0f0f0;
+            --cor-fundo-claro: #ffffff;
+            --cor-fundo-escuro: #f7f7f7;
+            --sombra-card: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicao-suave: all 0.3s ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--cor-fundo-escuro);
+            color: var(--cor-texto-escuro);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Estrutura principal da aplicação */
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Seção de cabeçalho (Header) */
+        .header {
+            background-color: var(--cor-principal-claro); /* Mais verde aqui */
+            padding: 1.5rem 1rem;
+            box-shadow: var(--sombra-card);
+            text-align: center;
+            border-bottom: 3px solid var(--cor-principal); /* Mais verde aqui */
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-texto-claro); /* Texto branco */
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Destaque no texto */
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 0.5rem;
+        }
+
+        /* Layout principal do conteúdo - sidebar e área principal */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            padding: 2rem 1rem;
+            gap: 2rem;
+            max-width: 1400px; /* Aumenta um pouco para acomodar bem */
+            margin: 0 auto;
+            width: 100%;
+            border: 1px solid var(--cor-principal-claro); /* Borda verde clara */
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+        }
+
+        /* Sidebar de planos salvos */
+        .plan-list-sidebar {
+            background-color: var(--cor-fundo-claro);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+            width: 300px; /* Largura fixa para a sidebar */
+            flex-shrink: 0; /* Não encolhe */
+            overflow-y: auto; /* Permite rolagem se muitos planos */
+            max-height: calc(100vh - 100px); /* Ajusta altura para não sair da tela */
+        }
+
+        .plan-list-sidebar h2 {
+            font-size: 1.8rem;
+            color: var(--cor-principal);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .plan-list-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .plan-list-sidebar li {
+            background-color: var(--cor-fundo-escuro);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--cor-texto-escuro);
+            cursor: pointer;
+            transition: var(--transicao-suave);
+            border: 1px solid transparent;
+        }
+
+        .plan-list-sidebar li:hover {
+            background-color: var(--cor-principal-claro);
+            border-color: var(--cor-principal);
+            transform: translateX(5px);
+        }
+
+        .plan-list-sidebar li.selected {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-claro);
+            border-left: 5px solid var(--cor-principal); /* Mais verde aqui */
+            font-weight: 600;
+        }
+
+        .plan-list-sidebar li button {
+            background: none;
+            border: none;
+            color: #ff6666; /* Cor para o botão de exclusão */
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .plan-list-sidebar li button:hover {
+            color: #cc0000;
+        }
+
+        /* Área principal de planejamento */
+        .planning-main-area {
+            flex-grow: 1; /* Ocupa o espaço restante */
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Estilo comum para seções da área principal */
+        .planning-section {
+            background-color: var(--cor-fundo-claro);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+        }
+
+        .planning-section h2 {
+            font-size: 2rem;
+            color: var(--cor-principal);
+            margin-top: 0;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 2px solid var(--cor-principal-claro); /* Mais verde aqui */
+        }
+
+        /* Editor de Plano de Negócios */
+        .business-plan-editor .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .business-plan-editor label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto-escuro);
+            font-weight: 600;
+        }
+
+        .business-plan-editor input[type="text"],
+        .business-plan-editor textarea,
+        .planning-section input[type="number"],
+        .detailed-sector-analysis-section select { /* Inclui input number e select para nova seção */
+            width: calc(100% - 20px); /* Ajusta largura para padding */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical; /* Permite redimensionar verticalmente */
+            box-sizing: border-box; /* Inclui padding na largura total */
+            transition: border-color 0.3s ease;
+        }
+
+        .business-plan-editor input[type="text"]:focus,
+        .business-plan-editor textarea:focus,
+        .planning-section input[type="number"]:focus,
+        .detailed-sector-analysis-section select:focus { /* Inclui input number e select para nova seção */
+            outline: none;
+            border-color: var(--cor-principal);
+            box-shadow: 0 0 0 3px rgba(144, 238, 144, 0.5);
+        }
+
+        .business-plan-editor textarea {
+            min-height: 100px;
+        }
+
+        .editor-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end; /* Alinha botões à direita */
+            margin-top: 2rem;
+        }
+
+        .editor-buttons button {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-escuro);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao-suave);
+            box-shadow: var(--sombra-card);
+        }
+
+        .editor-buttons button:hover {
+            background-color: var(--cor-principal-claro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Botão Salvar com estilo primário */
+        .editor-buttons #savePlanBtn {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-escuro);
+        }
+        .editor-buttons #savePlanBtn:hover {
+            background-color: var(--cor-principal-claro);
+        }
+
+        /* Botão de exclusão com estilo de alerta */
+        .editor-buttons #deletePlanBtn {
+            background-color: #ff6666; /* Vermelho suave */
+            color: var(--cor-texto-claro);
+        }
+        .editor-buttons #deletePlanBtn:hover {
+            background-color: #cc0000; /* Vermelho mais forte */
+        }
+
+        /* Botões menores para a seção de faturamento */
+        .editor-buttons-small {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-escuro);
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao-suave);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 1rem; /* Espaçamento para o botão "Atualizar Dados" */
+            width: fit-content;
+        }
+        .editor-buttons-small:hover {
+            background-color: var(--cor-principal-claro);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+
+        /* Nova seção: Metas e Faturamento (Revenue Tracking) */
+        .revenue-tracking-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minminmax(280px, 1fr)); /* Min para flexibilidade */
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .revenue-tracking-section .input-group,
+        .revenue-tracking-section .info-box {
+            background-color: var(--cor-fundo-escuro);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal-claro);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .revenue-tracking-section label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--cor-texto-escuro);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .revenue-tracking-section input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .revenue-tracking-section .info-box p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--cor-texto-escuro);
+        }
+
+        .revenue-tracking-section .info-box strong {
+            color: var(--cor-principal);
+            font-size: 1.1rem;
+        }
+
+        .growth {
+            color: green;
+            font-weight: 700;
+        }
+        .decline {
+            color: red;
+            font-weight: 700;
+        }
+        .neutral {
+            color: orange;
+            font-weight: 700;
+        }
+        .goal-met {
+            color: green;
+            font-weight: 700;
+        }
+        .goal-not-met {
+            color: red;
+            font-weight: 700;
+        }
+
+
+        /* Análise de Mercado */
+        .market-analysis-section .chart-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: var(--cor-fundo-escuro);
+            border: 2px dashed var(--cor-principal);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cor-principal);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .market-analysis-section h3 {
+            font-size: 1.5rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .market-analysis-section ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .market-analysis-section ul li {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .sector-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .sector-table th, .sector-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sector-table th {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-escuro);
+            font-weight: 700;
+            border-radius: 8px 8px 0 0; /* Arredonda cantos da tabela */
+        }
+
+        .sector-table tr:nth-child(even) {
+            background-color: var(--cor-fundo-escuro);
+        }
+
+        .sector-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Nova seção de Análise de Concorrência */
+        .competition-analysis-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px dashed var(--cor-principal-claro); /* Separador visual */
+        }
+
+        .competition-analysis-section .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .competition-analysis-section label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto-escuro);
+            font-weight: 600;
+        }
+
+        .competition-analysis-section textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            min-height: 120px;
+        }
+
+        .competition-info {
+            background-color: var(--cor-fundo-escuro);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid var(--cor-principal); /* Borda verde */
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Nova seção de Produtos Campeões */
+        .champion-products-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px dashed var(--cor-principal-claro);
+        }
+
+        .champion-product-card {
+            background-color: var(--cor-fundo-claro);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--sombra-card);
+            border: 1px solid var(--cor-principal); /* Mais verde aqui */
+            transition: var(--transicao-suave);
+        }
+
+        .champion-product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .champion-product-card h4 {
+            color: var(--cor-principal);
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .champion-product-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .champion-product-card span {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Nova seção de Informações Importantes */
+        .important-info-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px dashed var(--cor-principal-claro);
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            background-color: var(--cor-fundo-escuro);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--cor-principal-claro);
+            font-size: 1rem;
+        }
+
+        .info-list li strong {
+            color: var(--cor-principal);
+        }
+
+        /* Nova seção: Análise Detalhada por Setor */
+        .detailed-sector-analysis-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px dashed var(--cor-principal-claro);
+        }
+
+        .detailed-sector-analysis-section select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            background-color: var(--cor-fundo-claro);
+            color: var(--cor-texto-escuro);
+            transition: border-color 0.3s ease;
+        }
+
+        .detailed-sector-analysis-section select:focus {
+            outline: none;
+            border-color: var(--cor-principal);
+            box-shadow: 0 0 0 3px rgba(144, 238, 144, 0.5);
+        }
+
+        .sector-details-box {
+            background-color: var(--cor-fundo-escuro);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid var(--cor-principal); /* Destaque com borda verde */
+            min-height: 150px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .sector-details-box h4 {
+            color: var(--cor-principal);
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        .sector-details-box ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin-bottom: 1rem;
+        }
+
+
+        /* Avaliação do Plano */
+        .plan-evaluation-section {
+            text-align: center;
+        }
+
+        .plan-evaluation-section button {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-escuro);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao-suave);
+            box-shadow: var(--sombra-card);
+        }
+
+        .plan-evaluation-section button:hover {
+            background-color: var(--cor-principal-claro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        #evaluationResult {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: var(--cor-fundo-escuro);
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+            text-align: left;
+        }
+
+        /* Rodapé (Footer) */
+        .footer {
+            background-color: var(--cor-texto-escuro);
+            color: var(--cor-texto-claro);
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            margin-top: auto; /* Garante que o footer fique no final da página */
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        /* Mensagem flutuante (para feedback de usuário) */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            font-weight: 500;
+        }
+        .message-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+                padding: 1.5rem 0.5rem;
+            }
+            .plan-list-sidebar {
+                width: 100%;
+                max-height: 300px; /* Limita altura em telas menores */
+            }
+            .editor-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .editor-buttons button {
+                width: 100%;
+            }
+            .revenue-tracking-section {
+                grid-template-columns: 1fr; /* Uma coluna em telas menores */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .planning-section h2 {
+                font-size: 1.8rem;
+            }
+            .plan-list-sidebar h2 {
+                font-size: 1.6rem;
+            }
+            .business-plan-editor label,
+            .market-analysis-section h3,
+            .plan-evaluation-section button {
+                font-size: 1rem;
+            }
+            .business-plan-editor input[type="text"],
+            .business-plan-editor textarea,
+            .plan-list-sidebar li,
+            .revenue-tracking-section input[type="number"],
+            .detailed-sector-analysis-section select {
+                font-size: 0.95rem;
+            }
+            .revenue-tracking-section label {
+                font-size: 0.9rem;
+            }
+            .revenue-tracking-section .info-box p {
+                font-size: 0.9rem;
+            }
+            .revenue-tracking-section .info-box strong {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+            .planning-section {
+                padding: 1.5rem;
+            }
+            .planning-section h2 {
+                font-size: 1.6rem;
+            }
+            .plan-list-sidebar {
+                padding: 1rem;
+            }
+            .plan-list-sidebar h2 {
+                font-size: 1.4rem;
+            }
+            .editor-buttons button {
+                padding: 0.7rem 1rem;
+            }
+        }
+    </style>
+  <nav style="
+    background: linear-gradient(90deg, rgb(144, 238, 144), rgb(34, 139, 34));
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+">
+  <ul style="
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      gap: 30px;
+  ">
+    <li><a href="/inicio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Início</a></li>
+    <li><a href="/planejamento" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Planejamento</a></li>
+    <li><a href="/financeiro" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Financeiro</a></li>
+    <li><a href="/marketing" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Marketing</a></li>
+    <li><a href="/seja-socio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Seja Sócio</a></li>
+    <li><a href="/fornecedor" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Fornecedores</a></li>
+  </ul>
+</nav>
+
+
+
+
+</head>
+<body>
+    <div id="root">
+        <!-- Cabeçalho Principal -->
+        <header class="header">
+            <h1>Impulso Empreendedor</h1>
+            <p>Seu guia para estruturar, crescer e tomar decisões inteligentes.</p>
+        </header>
+
+        <!-- Seção Principal de Conteúdo -->
+        <main class="main-content">
+            <!-- Coluna Lateral com Planos Salvos -->
+            <aside class="plan-list-sidebar">
+                <h2>Meus Planos</h2>
+                <ul id="planList">
+                    <!-- Planos serão carregados aqui pelo JavaScript -->
+                    <li class="new-plan-item" onclick="createNewPlan()">
+                        <span class="new-plan-text">+ Novo Plano</span>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Área Principal de Planejamento -->
+            <section class="planning-main-area">
+                <!-- Nova seção: Metas e Faturamento (Revenue Tracking) -->
+                <div id="revenueTrackingSection" class="planning-section">
+                    <h2>Metas e Faturamento Mensal</h2>
+                    <div class="revenue-tracking-section">
+                        <div class="input-group">
+                            <label for="monthlyGoal">Meta de Faturamento (Mês Atual):</label>
+                            <input type="number" id="monthlyGoal" placeholder="Ex: 5000" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="currentMonthRevenue">Faturamento do Mês Atual:</label>
+                            <input type="number" id="currentMonthRevenue" placeholder="Ex: 4800" min="0">
+                        </div>
+                        <div class="info-box">
+                            <p>Faturamento do Mês Passado:</p>
+                            <p><strong><span id="lastMonthRevenueDisplay">R$ 0,00</span></strong></p>
+                        </div>
+                        <div class="info-box">
+                            <p>Crescimento/Queda:</p>
+                            <p><strong id="growthOrDeclineDisplay">N/A</strong></p>
+                        </div>
+                        <div class="info-box">
+                            <p>Meta Batida?</p>
+                            <p><strong id="goalMetDisplay">N/A</strong></p>
+                        </div>
+                        <div class="input-group">
+                            <button id="updateRevenueBtn" class="editor-buttons-small">Atualizar Dados</button>
+                            <button id="generateReportBtn" class="editor-buttons-small">Gerar Relatório</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editor de Plano de Negócios -->
+                <div id="businessPlanEditor" class="planning-section business-plan-editor">
+                    <h2>Editor de Plano de Negócio</h2>
+                    <div class="form-group">
+                        <label for="planName">Nome do Plano:</label>
+                        <input type="text" id="planName" placeholder="Ex: Plano de Negócio Startup X" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="objective">Objetivo:</label>
+                        <textarea id="objective" placeholder="Qual o propósito principal do seu negócio? Onde você quer chegar?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="strategy">Estratégia:</label>
+                        <textarea id="strategy" placeholder="Como você vai alcançar seus objetivos? Quais são os passos e métodos?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="metrics">Métricas:</label>
+                        <textarea id="metrics" placeholder="Como você vai medir o sucesso? Quais são os indicadores chave de performance (KPIs)?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="goals">Metas:</label>
+                        <textarea id="goals" placeholder="Quais são as metas específicas, mensuráveis, atingíveis, relevantes e com prazo definido (SMART)?"></textarea>
+                    </div>
+                    <div class="editor-buttons">
+                        <button id="savePlanBtn">Salvar Plano</button>
+                        <button id="newPlanBtn">Limpar Editor</button>
+                        <button id="deletePlanBtn" style="display:none;">Excluir Plano</button>
+                        <button id="exportPdfBtn">Exportar PDF</button>
+                    </div>
+                </div>
+
+                <!-- Análise de Mercado Interativa -->
+                <div class="planning-section market-analysis-section">
+                    <h2>Análise de Mercado</h2>
+                    <p>Explore as tendências do mercado e identifique oportunidades para o seu negócio.</p>
+
+                    <div class="chart-placeholder">
+                        <span>Gráfico ou Tabela de Setores (simulado)</span>
+                    </div>
+
+                    <h3>Setores em Destaque:</h3>
+                    <table class="sector-table">
+                        <thead>
+                            <tr>
+                                <th>Setor</th>
+                                <th>Situação</th>
+                                <th>Tendência</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectorDataTable">
+                            <!-- Dados de setores serão carregados aqui pelo JavaScript -->
+                        </tbody>
+                    </table>
+
+                    <!-- Nova seção: Análise Detalhada por Setor -->
+                    <div class="detailed-sector-analysis-section">
+                        <h3>Análise Detalhada por Setor</h3>
+                        <div class="form-group">
+                            <label for="sectorSelect">Selecione um Setor para Análise:</label>
+                            <select id="sectorSelect">
+                                <option value="">Selecione um setor...</option>
+                                <!-- Options will be populated by JS -->
+                            </select>
+                        </div>
+                        <div id="selectedSectorDetails" class="sector-details-box">
+                            <p>Selecione um setor acima para ver sua análise detalhada.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Nova seção: Análise de Concorrência -->
+                    <div class="competition-analysis-section">
+                        <h3>Análise de Concorrência</h3>
+                        <div class="form-group">
+                            <label for="competitors">Descreva seus principais concorrentes diretos e indiretos:</label>
+                            <textarea id="competitors" placeholder="Ex: Empresa A (preço baixo), Empresa B (inovação), Empresa C (nicho específico)"></textarea>
+                        </div>
+                        <div class="competition-info">
+                            <p><strong>Nível de Concorrência Simulada:</strong> <span id="simulatedCompetitionLevel">Média</span></p>
+                            <p><strong>Dicas para se Destacar:</strong>
+                                <ul id="competitionTips">
+                                    <!-- Dicas de concorrência serão carregadas aqui -->
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Nova seção: Produtos Campeões em Nichos -->
+                    <div class="champion-products-section">
+                        <h3>Produtos Campeões em Nichos</h3>
+                        <p>Descubra exemplos de produtos de sucesso em diferentes setores e inspire-se para o seu negócio.</p>
+                        <div id="championProductsList">
+                            <!-- Produtos campeões serão carregados aqui -->
+                        </div>
+                    </div>
+
+                    <!-- Informações Importantes para o Empreendedor -->
+                    <div class="important-info-section">
+                        <h3>Recursos e Informações Essenciais</h3>
+                        <ul class="info-list" id="essentialInfoList">
+                            <!-- Informações essenciais serão carregadas aqui -->
+                        </ul>
+                    </div>
+
+                    <h3>Dicas para o Sucesso:</h3>
+                    <ul id="marketTips">
+                        <!-- Dicas serão carregadas aqui pelo JavaScript -->
+                    </ul>
+                </div>
+
+                <!-- Avaliação Automática do Plano -->
+                <div class="planning-section plan-evaluation-section">
+                    <h2>Avaliação Rápida do Plano</h2>
+                    <button id="evaluatePlanBtn">Avaliar Meu Plano</button>
+                    <div id="evaluationResult">
+                        Seu feedback de avaliação aparecerá aqui.
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <p>&copy; 2025 Impulso Empreendedor. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Array para armazenar os planos de negócio
+        let businessPlans = [];
+        let currentEditingPlanId = null; // ID do plano atualmente em edição
+
+        // Referências aos elementos HTML
+        const planList = document.getElementById('planList');
+        const planNameInput = document.getElementById('planName');
+        const objectiveTextarea = document.getElementById('objective');
+        const strategyTextarea = document.getElementById('strategy');
+        const metricsTextarea = document.getElementById('metrics');
+        const goalsTextarea = document.getElementById('goals');
+        const competitorsTextarea = document.getElementById('competitors');
+
+        // Revenue Tracking Elements
+        const monthlyGoalInput = document.getElementById('monthlyGoal');
+        const currentMonthRevenueInput = document.getElementById('currentMonthRevenue');
+        const lastMonthRevenueDisplay = document.getElementById('lastMonthRevenueDisplay');
+        const growthOrDeclineDisplay = document.getElementById('growthOrDeclineDisplay');
+        const goalMetDisplay = document.getElementById('goalMetDisplay');
+        const updateRevenueBtn = document.getElementById('updateRevenueBtn');
+        const generateReportBtn = document.getElementById('generateReportBtn');
+
+        const sectorSelect = document.getElementById('sectorSelect');
+        const selectedSectorDetailsDiv = document.getElementById('selectedSectorDetails');
+
+        const savePlanBtn = document.getElementById('savePlanBtn');
+        const newPlanBtn = document.getElementById('newPlanBtn');
+        const deletePlanBtn = document.getElementById('deletePlanBtn');
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        const evaluatePlanBtn = document.getElementById('evaluatePlanBtn');
+        const evaluationResultDiv = document.getElementById('evaluationResult');
+        const sectorDataTable = document.getElementById('sectorDataTable');
+        const marketTipsList = document.getElementById('marketTips');
+        const simulatedCompetitionLevelSpan = document.getElementById('simulatedCompetitionLevel');
+        const competitionTipsList = document.getElementById('competitionTips');
+        const championProductsListDiv = document.getElementById('championProductsList');
+        const essentialInfoList = document.getElementById('essentialInfoList');
+
+        // --- Funções de Utilitário ---
+
+        /**
+         * Exibe uma mensagem flutuante na tela para feedback do usuário.
+         * @param {string} texto - O texto da mensagem a ser exibida.
+         * @param {number} duracao - Duração em milissegundos para a mensagem permanecer (padrão: 3000ms).
+         */
+        function exibirMensagem(texto, duracao = 3000) {
+            let mensagemDiv = document.querySelector('.message-box');
+            if (!mensagemDiv) {
+                mensagemDiv = document.createElement('div');
+                mensagemDiv.classList.add('message-box');
+                document.body.appendChild(mensagemDiv);
+            }
+
+            mensagemDiv.textContent = texto;
+            mensagemDiv.classList.add('show');
+
+            // Garante que a mensagem será removida após a duração
+            setTimeout(() => {
+                mensagemDiv.classList.remove('show');
+                // Remove o elemento após a transição se ele não for reutilizado
+                setTimeout(() => {
+                    if (!mensagemDiv.classList.contains('show')) {
+                        mensagemDiv.remove();
+                    }
+                }, 500); // Tempo da transição CSS
+            }, duracao);
+        }
+
+        /**
+         * Limpa os campos do editor de plano de negócio e os campos de faturamento.
+         */
+        function clearEditor() {
+            planNameInput.value = '';
+            objectiveTextarea.value = '';
+            strategyTextarea.value = '';
+            metricsTextarea.value = '';
+            goalsTextarea.value = '';
+            competitorsTextarea.value = '';
+
+            // Limpa campos de faturamento
+            monthlyGoalInput.value = '';
+            currentMonthRevenueInput.value = '';
+            lastMonthRevenueDisplay.textContent = 'R$ 0,00';
+            growthOrDeclineDisplay.textContent = 'N/A';
+            growthOrDeclineDisplay.className = ''; // Remove classes de cor
+            goalMetDisplay.textContent = 'N/A';
+            goalMetDisplay.className = ''; // Remove classes de cor
+
+            currentEditingPlanId = null; // Zera o ID do plano em edição
+            deletePlanBtn.style.display = 'none'; // Esconde o botão de excluir
+            savePlanBtn.textContent = 'Salvar Plano'; // Altera texto do botão salvar
+            // Remove a seleção de qualquer item na lista
+            document.querySelectorAll('.plan-list-sidebar li').forEach(li => {
+                li.classList.remove('selected');
+            });
+            evaluationResultDiv.textContent = 'Seu feedback de avaliação aparecerá aqui.';
+            updateCompetitionAnalysis(); // Atualiza a análise de concorrência ao limpar
+
+            sectorSelect.value = ''; // Limpa a seleção do setor
+            displayDetailedSectorAnalysis(); // Limpa os detalhes do setor
+        }
+
+        // --- Funções de Gerenciamento de Planos ---
+
+        /**
+         * Carrega os planos de negócio do localStorage.
+         */
+        function loadPlans() {
+            const storedPlans = localStorage.getItem('businessPlans');
+            if (storedPlans) {
+                businessPlans = JSON.parse(storedPlans);
+            } else {
+                businessPlans = [];
+            }
+            renderPlanList();
+        }
+
+        /**
+         * Salva os planos de negócio no localStorage.
+         */
+        function savePlansToLocalStorage() {
+            localStorage.setItem('businessPlans', JSON.stringify(businessPlans));
+            exibirMensagem('Plano salvo com sucesso!');
+        }
+
+        /**
+         * Cria ou atualiza um plano de negócio.
+         */
+        function savePlan() {
+            const planName = planNameInput.value.trim();
+            const objective = objectiveTextarea.value.trim();
+            const strategy = strategyTextarea.value.trim();
+            const metrics = metricsTextarea.value.trim();
+            const goals = goalsTextarea.value.trim();
+            const competitors = competitorsTextarea.value.trim();
+
+            const monthlyGoal = parseFloat(monthlyGoalInput.value) || 0;
+            const currentMonthRevenue = parseFloat(currentMonthRevenueInput.value) || 0;
+
+
+            if (!planName) {
+                exibirMensagem('O nome do plano é obrigatório!', 2000);
+                return;
+            }
+
+            if (currentEditingPlanId) {
+                // Atualiza um plano existente
+                const planIndex = businessPlans.findIndex(p => p.id === currentEditingPlanId);
+                if (planIndex !== -1) {
+                    // Guarda o faturamento atual como faturamento do mês passado para a próxima vez que o plano for carregado
+                    const oldCurrentRevenue = businessPlans[planIndex].currentMonthRevenue || 0;
+
+                    businessPlans[planIndex] = {
+                        id: currentEditingPlanId,
+                        name: planName,
+                        objective: objective,
+                        strategy: strategy,
+                        metrics: metrics,
+                        goals: goals,
+                        competitors: competitors,
+                        monthlyGoal: monthlyGoal,
+                        currentMonthRevenue: currentMonthRevenue,
+                        lastMonthRevenue: oldCurrentRevenue // Atribui o faturamento atual como passado
+                    };
+                }
+            } else {
+                // Cria um novo plano
+                const newPlan = {
+                    id: Date.now().toString(),
+                    name: planName,
+                    objective: objective,
+                    strategy: strategy,
+                    metrics: metrics,
+                    goals: goals,
+                    competitors: competitors,
+                    monthlyGoal: monthlyGoal,
+                    currentMonthRevenue: currentMonthRevenue,
+                    lastMonthRevenue: 0 // Novo plano, mês passado é 0
+                };
+                businessPlans.push(newPlan);
+            }
+            savePlansToLocalStorage();
+            renderPlanList();
+            clearEditor(); // Limpa o editor após salvar/atualizar
+        }
+
+        /**
+         * Renderiza a lista de planos na sidebar.
+         */
+        function renderPlanList() {
+            planList.innerHTML = ''; // Limpa a lista existente
+
+            // Adiciona o item "Novo Plano"
+            const newPlanItem = document.createElement('li');
+            newPlanItem.classList.add('new-plan-item');
+            newPlanItem.setAttribute('onclick', 'createNewPlan()');
+            newPlanItem.innerHTML = '<span class="new-plan-text">+ Novo Plano</span>';
+            planList.appendChild(newPlanItem);
+
+            businessPlans.forEach(plan => {
+                const li = document.createElement('li');
+                li.setAttribute('data-id', plan.id);
+                li.innerHTML = `
+                    <span>${plan.name}</span>
+                    <button onclick="deletePlan('${plan.id}', event)">🗑️</button>
+                `;
+                li.addEventListener('click', () => loadPlanToEditor(plan.id));
+                planList.appendChild(li);
+
+                if (plan.id === currentEditingPlanId) {
+                    li.classList.add('selected'); // Mantém a seleção se estiver editando
+                }
+            });
+        }
+
+        /**
+         * Carrega um plano para o editor.
+         * @param {string} planId - O ID do plano a ser carregado.
+         */
+        function loadPlanToEditor(planId) {
+            const plan = businessPlans.find(p => p.id === planId);
+            if (plan) {
+                clearEditor(); // Limpa antes de carregar
+                planNameInput.value = plan.name;
+                objectiveTextarea.value = plan.objective;
+                strategyTextarea.value = plan.strategy;
+                metricsTextarea.value = plan.metrics;
+                goalsTextarea.value = plan.goals;
+                competitorsTextarea.value = plan.competitors || '';
+
+                monthlyGoalInput.value = plan.monthlyGoal || '';
+                currentMonthRevenueInput.value = plan.currentMonthRevenue || '';
+
+                currentEditingPlanId = plan.id;
+                deletePlanBtn.style.display = 'inline-block'; // Mostra o botão de excluir
+                savePlanBtn.textContent = 'Atualizar Plano'; // Altera texto do botão salvar
+
+                // Adiciona classe 'selected' ao item da lista
+                document.querySelectorAll('.plan-list-sidebar li').forEach(li => {
+                    li.classList.remove('selected');
+                });
+                document.querySelector(`.plan-list-sidebar li[data-id="${planId}"]`).classList.add('selected');
+                exibirMensagem(`Plano "${plan.name}" carregado.`, 2000);
+                updateCompetitionAnalysis(); // Atualiza a análise de concorrência
+                updateRevenueDisplay(); // Atualiza a exibição de faturamento
+            }
+        }
+
+        /**
+         * Exclui um plano de negócio.
+         * @param {string} planId - O ID do plano a ser excluído.
+         * @param {Event} event - O evento de clique (para parar a propagação).
+         */
+        function deletePlan(planId, event) {
+            event.stopPropagation(); // Impede que o clique na lixeira carregue o plano
+            if (window.confirm('Tem certeza que deseja excluir este plano?')) {
+                businessPlans = businessPlans.filter(p => p.id !== planId);
+                savePlansToLocalStorage();
+                renderPlanList();
+                if (currentEditingPlanId === planId) {
+                    clearEditor(); // Limpa o editor se o plano excluído estava sendo editado
+                }
+                exibirMensagem('Plano excluído com sucesso!', 2000);
+            }
+        }
+
+        /**
+         * Inicia a criação de um novo plano, limpando o editor.
+         */
+        function createNewPlan() {
+            clearEditor();
+            exibirMensagem('Comece um novo plano!', 2000);
+        }
+
+        /**
+         * Exporta o plano atual em PDF (via funcionalidade de impressão do navegador).
+         */
+        function exportPlanAsPdf() {
+            const planName = planNameInput.value.trim();
+            if (!planName) {
+                exibirMensagem('Não há plano para exportar. Salve um plano primeiro!', 2500);
+                return;
+            }
+
+            // Oculta elementos que não devem aparecer no PDF
+            document.querySelector('.header').style.display = 'none';
+            document.querySelector('.plan-list-sidebar').style.display = 'none';
+            document.querySelector('.footer').style.display = 'none';
+            document.querySelector('.editor-buttons').style.display = 'none';
+            document.querySelector('.market-analysis-section').style.display = 'none';
+            document.querySelector('.plan-evaluation-section').style.display = 'none';
+            document.getElementById('revenueTrackingSection').style.display = 'none'; // Oculta nova seção
+            document.querySelector('.main-content').style.border = 'none'; // Remove a borda verde principal
+            document.querySelector('.main-content').style.boxShadow = 'none'; // Remove a sombra principal
+
+
+            // Ajusta o estilo do corpo para a impressão
+            document.body.style.backgroundColor = 'white';
+            document.body.style.color = '#000';
+            document.querySelector('.planning-main-area').style.width = '100%';
+            document.querySelector('.planning-main-area').style.maxWidth = 'none';
+            document.querySelector('.planning-main-area').style.padding = '1rem';
+
+            // Adiciona um título ao PDF
+            const pdfTitle = document.createElement('h1');
+            pdfTitle.textContent = `Plano de Negócio: ${planName}`;
+            pdfTitle.style.textAlign = 'center';
+            pdfTitle.style.color = '#333';
+            pdfTitle.style.marginBottom = '20px';
+            document.getElementById('businessPlanEditor').prepend(pdfTitle);
+
+            window.print();
+
+            // Restaura os elementos e estilos após a impressão
+            pdfTitle.remove(); // Remove o título adicionado
+            document.querySelector('.header').style.display = 'block';
+            document.querySelector('.plan-list-sidebar').style.display = 'block';
+            document.querySelector('.footer').style.display = 'block';
+            document.querySelector('.editor-buttons').style.display = 'flex'; /* Volta para flex */
+            document.querySelector('.market-analysis-section').style.display = 'block';
+            document.querySelector('.plan-evaluation-section').style.display = 'block';
+            document.getElementById('revenueTrackingSection').style.display = 'block'; // Mostra nova seção
+            document.querySelector('.main-content').style.border = '1px solid var(--cor-principal-claro)'; // Restaura a borda verde principal
+            document.querySelector('.main-content').style.boxShadow = 'var(--sombra-card)'; // Restaura a sombra principal
+
+
+            // Restaura estilos do corpo
+            document.body.style.backgroundColor = 'var(--cor-fundo-escuro)';
+            document.body.style.color = 'var(--cor-texto-escuro)';
+            document.querySelector('.planning-main-area').style.width = ''; /* Volta ao padrão */
+            document.querySelector('.planning-main-area').style.maxWidth = ''; /* Volta ao padrão */
+            document.querySelector('.planning-main-area').style.padding = ''; /* Volta ao padrão */
+        }
+
+        // --- Funções de Análise de Mercado (Dados Fictícios) ---
+
+        const marketData = {
+            sectors: [
+                {
+                    name: 'Tecnologia Verde', status: 'Alta', trend: 'Crescimento Acelerado',
+                    opportunities: [
+                        'Demanda crescente por soluções sustentáveis em todas as indústrias.',
+                        'Incentivos governamentais e financiamentos para projetos de energia limpa e redução de carbono.',
+                        'Expansão do mercado de veículos elétricos e infraestrutura de carregamento.',
+                        'Automação e otimização de recursos naturais através de IoT e IA.',
+                        'Consciência ambiental do consumidor impulsionando produtos e serviços eco-friendly.'
+                    ],
+                    challenges: [
+                        'Alto custo inicial de implementação para novas tecnologias.',
+                        'Regulamentação complexa e em constante mudança.',
+                        'Barreiras de entrada para pequenas empresas devido a P&D intensivo.',
+                        'Necessidade de educação e conscientização do mercado.',
+                        'Concorrência de gigantes tecnológicos já estabelecidos.'
+                    ],
+                    keySuccessFactors: [
+                        'Inovação tecnológica contínua e desenvolvimento de patentes.',
+                        'Parcerias estratégicas com grandes empresas e governos.',
+                        'Certificações e conformidade com padrões ambientais e de qualidade.',
+                        'Modelo de negócios escalável e acessível.',
+                        'Marketing focado nos benefícios ambientais e econômicos.'
+                    ],
+                    recommendation: 'Este setor é um dos mais promissores. Foque em um nicho específico dentro da tecnologia verde, como reciclagem de eletrônicos ou soluções de energia solar para pequenos negócios. Invista pesado em pesquisa e desenvolvimento, buscando diferenciação através de tecnologia proprietária. Parcerias com o setor público ou grandes empresas podem acelerar sua entrada e validação no mercado.'
+                },
+                {
+                    name: 'Saúde Digital', status: 'Alta', trend: 'Expansão Constante',
+                    opportunities: [
+                        'Aumento da demanda por conveniência e acesso remoto a serviços de saúde (telemedicina).',
+                        'Envelhecimento da população e necessidade de monitoramento contínuo de saúde.',
+                        'Uso de Big Data e IA para diagnósticos mais precisos e tratamentos personalizados.',
+                        'Adoção de wearables e dispositivos conectados para acompanhamento de saúde.',
+                        'Soluções para otimização da gestão hospitalar e clínicas.'
+                    ],
+                    challenges: [
+                        'Segurança e privacidade dos dados de pacientes (LGPD/HIPAA).',
+                        'Resistência à adoção de novas tecnologias por parte de profissionais e pacientes.',
+                        'Integração com sistemas legados de saúde.',
+                        'Alto investimento em tecnologia e infraestrutura.',
+                        'Regulamentação e licenciamento complexos para a área da saúde.'
+                    ],
+                    keySuccessFactors: [
+                        'Plataformas intuitivas e seguras para o usuário final.',
+                        'Integração de serviços (consultas, exames, medicamentos).',
+                        'Parcerias com hospitais, clínicas e planos de saúde.',
+                        'Foco na experiência do paciente e personalização do atendimento.',
+                        'Equipe multidisciplinar com expertise em saúde e tecnologia.'
+                    ],
+                    recommendation: 'A Saúde Digital está em ascensão. Considere desenvolver uma solução para um problema específico, como agendamento de consultas com IA ou monitoramento de doenças crônicas. A confiança e a segurança dos dados são primordiais. Garanta que sua plataforma seja fácil de usar e que agregue valor real tanto para pacientes quanto para profissionais da saúde.'
+                },
+                {
+                    name: 'Alimentação Saudável e Sustentável', status: 'Alta', trend: 'Forte Demanda',
+                    opportunities: [
+                        'Crescente preocupação com saúde, bem-estar e alimentação consciente (orgânicos, veganos, sem glúten).',
+                        'Busca por produtos de origem local, transparente e rastreável, valorizando pequenos produtores.',
+                        'Conveniência e praticidade em refeições saudáveis (kits, marmitas, delivery, comidas prontas).',
+                        'Expansão do mercado de nicho para dietas específicas, alergias alimentares e restrições.',
+                        'Engajamento com causas ambientais e sociais através de práticas sustentáveis na cadeia produtiva.'
+                    ],
+                    challenges: [
+                        'Logística complexa para produtos perecíveis, garantindo frescor e qualidade.',
+                        'Alto custo de produção para insumos orgânicos e com certificações de sustentabilidade.',
+                        'Forte concorrência de grandes redes de supermercados e marcas estabelecidas.',
+                        'Necessidade de certificações rigorosas e conformidade com normas sanitárias.',
+                        'Educação contínua do consumidor sobre os benefícios e o valor agregado dos produtos.'
+                    ],
+                    keySuccessFactors: [
+                        'Qualidade inquestionável, autenticidade e frescor dos ingredientes.',
+                        'Eficiência na cadeia de suprimentos e entrega (do produtor à mesa).',
+                        'Narrativa de marca forte e transparente sobre a origem, valores e impacto social/ambiental.',
+                        'Personalização e variedade de produtos para atender a diferentes necessidades e preferências dietéticas.',
+                        'Marketing digital eficaz focado em saúde, bem-estar, conveniência e sustentabilidade.'
+                    ],
+                    recommendation: 'Este setor possui um enorme potencial, mas exige atenção à autenticidade e à logística. Focar em nichos específicos, como lanches saudáveis para crianças ou refeições plant-based para atletas, pode ser uma boa estratégia. A rastreabilidade dos ingredientes e uma comunicação clara sobre seus valores farão a diferença. Invista em embalagens sustentáveis e uma experiência de compra conveniente.'
+                },
+                {
+                    name: 'Serviços de Streaming', status: 'Estável', trend: 'Concorrência Crescente',
+                    opportunities: [
+                        'Expansão para novos mercados emergentes com baixa penetração.',
+                        'Criação de conteúdo exclusivo e de nicho para atrair públicos específicos.',
+                        'Modelos de negócio híbridos (assinatura + publicidade) para maior flexibilidade.',
+                        'Aumento da demanda por conteúdo interativo e experiências imersivas.',
+                        'Parcerias com criadores de conteúdo independentes e estúdios menores.'
+                    ],
+                    challenges: [
+                        'Saturação e fragmentação do mercado com muitos concorrentes.',
+                        'Alto custo de produção e licenciamento de conteúdo de qualidade.',
+                        'Pirateria e acesso ilegal a conteúdo.',
+                        'Churn (evasão de assinantes) devido à vasta oferta e busca por novidades.',
+                        'Necessidade de inovação constante para manter o engajamento.'
+                    ],
+                    keySuccessFactors: [
+                        'Conteúdo original, relevante e de alta qualidade.',
+                        'Experiência de usuário fluida e personalizada (recomendações).',
+                        'Modelos de precificação flexíveis e planos familiares atraentes.',
+                        'Compatibilidade com múltiplos dispositivos e plataformas.',
+                        'Forte investimento em marketing e aquisição de novos assinantes.'
+                    ],
+                    recommendation: 'O mercado de streaming é competitivo. Para se destacar, concentre-se em um nicho de conteúdo específico (por exemplo, documentários de natureza, filmes independentes) ou explore um modelo de negócio inovador, como o acesso a eventos ao vivo exclusivos. A fidelização do cliente através de conteúdo de alta qualidade e uma excelente experiência de usuário é fundamental.'
+                },
+                {
+                    name: 'Varejo Físico Tradicional', status: 'Estável', trend: 'Transformação Digital Necessária',
+                    opportunities: [
+                        'Criação de experiências de compra diferenciadas e imersivas na loja física.',
+                        'Integração fluida com e-commerce (estratégia omnichannel: compre online, retire na loja).',
+                        'Uso de tecnologia (Realidade Aumentada, VR, IA) para personalizar a jornada do cliente.',
+                        'Focar em curadoria de produtos e atendimento personalizado que o online não oferece.',
+                        'Eventos na loja e comunidades de clientes.'
+                    ],
+                    challenges: [
+                        'Crescimento exponencial do e-commerce e mudança nos hábitos de consumo.',
+                        'Custos operacionais elevados (aluguel, funcionários, estoque).',
+                        'Forte competição de preços com varejistas online.',
+                        'Necessidade de constante renovação do estoque e vitrines.',
+                        'Adaptação a novas tecnologias e expectativas do consumidor.'
+                    ],
+                    keySuccessFactors: [
+                        'Otimização da experiência na loja: ambiente agradável, atendimento de excelência.',
+                        'Integração eficaz de canais de venda (online e offline).',
+                        'Agilidade na adaptação às mudanças de consumo e tendências de mercado.',
+                        'Curadoria de produtos única e exclusiva.',
+                        'Forte presença em mídias sociais para atrair tráfego para a loja física.'
+                    ],
+                    recommendation: 'O varejo físico precisa se reinventar. Invista em uma experiência de loja que seja um destino, não apenas um ponto de venda. Integre o online e o offline, permitindo que o cliente comece a compra em um canal e finalize em outro. Use a tecnologia para personalizar ofertas e aprimorar o atendimento. O atendimento humano e a atmosfera da loja são seus maiores diferenciais.'
+                },
+                {
+                    name: 'Mídia Impressa Tradicional', status: 'Queda', trend: 'Declínio Lento',
+                    opportunities: [
+                        'Nicho de leitores fiéis que valorizam o formato físico e o conteúdo aprofundado.',
+                        'Conteúdo de alta qualidade, investigativo e analítico que se diferencia de notícias rápidas online.',
+                        'Transição para o digital com modelos de assinatura para acesso a conteúdo premium online.',
+                        'Eventos e workshops relacionados ao conteúdo para engajar a comunidade de leitores.',
+                        'Criação de produtos de nicho (revistas de arte, design, hobbies específicos).'
+                    ],
+                    challenges: [
+                        'Queda contínua na circulação e na receita de publicidade impressa.',
+                        'Forte concorrência da mídia digital gratuita e das redes sociais.',
+                        'Custos elevados de impressão, papel e distribuição.',
+                        'Dificuldade em atrair e reter novos leitores jovens.',
+                        'Percepção de obsolescência do formato impresso.'
+                    ],
+                    keySuccessFactors: [
+                        'Conteúdo exclusivo, de alta qualidade e com valor agregado (análises, reportagens).',
+                        'Desenvolvimento de um modelo de negócios digital robusto (assinaturas, paywalls).',
+                        'Engajamento da comunidade de leitores e criação de lealdade à marca.',
+                        'Exploração de nichos específicos com alta demanda por conteúdo especializado.',
+                        'Diversificação de receita com eventos, merchandising ou consultoria.'
+                    ],
+                    recommendation: 'A mídia impressa enfrenta desafios, mas há oportunidades em nichos. Concentre-se em conteúdo de valor que não pode ser facilmente encontrado online. Desenvolva um modelo híbrido, onde o impresso é um produto premium e o digital oferece acesso contínuo e mais dinâmico. A construção de uma comunidade engajada e eventos exclusivos podem ser diferenciais.'
+                },
+                {
+                    name: 'Locação de DVDs/Fitas', status: 'Queda', trend: 'Obsolescência',
+                    opportunities: [
+                        'Mercado de nicho para colecionadores, entusiastas de cinema e nostálgicos.',
+                        'Serviços especializados de conversão de mídias antigas (VHS para digital).',
+                        'Venda de itens raros e colecionáveis para entusiastas.',
+                        'Experiências temáticas (noites de cinema retrô, eventos de troca de filmes).',
+                        'Parcerias com sebos e lojas de artigos vintage.'
+                    ],
+                    challenges: [
+                        'Predominância absoluta dos serviços de streaming e plataformas digitais.',
+                        'Baixa demanda em massa e dificuldade em atrair novos clientes.',
+                        'Disponibilidade limitada de equipamentos de reprodução (videocassetes, DVDs players antigos).',
+                        'Custos de manutenção de acervo físico e armazenamento.',
+                        'Percepção geral de obsolescência do formato.'
+                    ],
+                    keySuccessFactors: [
+                        'Focar em nichos muito específicos e apaixonados.',
+                        'Valorização da raridade, originalidade e colecionismo.',
+                        'Criação de uma experiência nostálgica e autêntica.',
+                        'Diversificação para serviços relacionados (restauração de fitas, vendas de aparelhos antigos).',
+                        'Presença em feiras e eventos de cultura pop/geek.'
+                    ],
+                    recommendation: 'Este é um mercado em declínio. Se for atuar, foque em um nicho muito específico de colecionadores e amantes de cinema. A digitalização de acervos antigos e a criação de um senso de comunidade em torno da nostalgia podem gerar valor. Considere eventos temáticos ou a venda de edições raras para se diferenciar.'
+                }
+            ],
+            tips: [
+                'Invista em pesquisa de mercado para identificar nichos específicos e não atendidos.',
+                'Foque na inovação e diferenciação para se destacar da concorrência.',
+                'Construa uma marca forte e utilize o marketing digital de forma estratégica (redes sociais, SEO, e-mail marketing).',
+                'Priorize a experiência do cliente e a qualidade do seu produto ou serviço em todas as interações.',
+                'Busque parcerias estratégicas que possam alavancar seu crescimento e alcance.',
+                'Mantenha-se constantemente atualizado com as novas tecnologias e tendências do seu setor.',
+                'Desenvolva um plano de negócios flexível e adaptável às constantes mudanças do mercado.'
+            ],
+            competitionTips: [
+                'Analise a estratégia de precificação, marketing e vendas dos seus concorrentes.',
+                'Identifique lacunas no mercado ou dores dos clientes que seus concorrentes não atendem.',
+                'Monitore as redes sociais e avaliações online dos seus competidores para aprender com seus acertos e erros.',
+                'Diferencie-se pela inovação, um atendimento ao cliente excepcional ou uma proposta de valor única.',
+                'Crie um plano de contingência para antecipar e reagir a movimentos agressivos da concorrência.'
+            ],
+            championProducts: [
+                {
+                    name: 'Assinatura de Kits de Horta Doméstica Inteligente',
+                    niche: 'Tecnologia Verde',
+                    description: 'Kits mensais de sementes orgânicas e um sistema hidropônico ou de irrigação inteligente, controlado via app, que otimiza o cultivo em casa com mínima intervenção.',
+                    keySuccessFactor: 'Facilidade de uso, resultados visíveis e rápidos para o cliente, componente tecnológico intuitivo e ecológico que simplifica a jardinagem urbana.',
+                    whyChampion: 'Capitaliza a tendência de "faça você mesmo" (DIY), o desejo por alimentos frescos e saudáveis, e a sustentabilidade, utilizando tecnologia para tornar o cultivo acessível mesmo para quem não tem experiência ou espaço.'
+                },
+                {
+                    name: 'Aplicativo de Apoio Psicológico com IA e Terapeutas',
+                    niche: 'Saúde Digital',
+                    description: 'Plataforma que combina chatbot de IA para suporte inicial e diário, com acesso a sessões de terapia online com profissionais licenciados. Foco na acessibilidade e personalização.',
+                    keySuccessFactor: 'Combinação de tecnologia (IA) com o toque humano do terapeuta, segurança e privacidade dos dados, e um modelo de assinatura flexível.',
+                    whyChampion: 'Responde à crescente demanda por saúde mental, oferecendo uma solução híbrida que une a conveniência da IA para suporte imediato com a profundidade da terapia humana, democratizando o acesso e reduzindo o estigma.'
+                },
+                {
+                    name: 'Plataforma de E-commerce para Artesanato e Produtos Feitos à Mão',
+                    niche: 'Artesanato e Produtos Exclusivos',
+                    description: 'Um marketplace focado em conectar artesãos locais e independentes com consumidores que buscam produtos únicos, sustentáveis e personalizados, com curadoria de alta qualidade.',
+                    keySuccessFactor: 'Curadoria rigorosa, forte senso de comunidade entre artesãos e clientes, marketing focado na história por trás dos produtos, e uma experiência de compra visualmente atraente.',
+                    whyChampion: 'Atende à busca por exclusividade e personalização em um mundo massificado. Valoriza o trabalho manual, a sustentabilidade e a conexão direta entre produtor e consumidor, algo que grandes varejistas não conseguem replicar facilmente.'
+                },
+                {
+                    name: 'Serviço de Consultoria de Marketing Digital para Pequenos Negócios Locais',
+                    niche: 'Serviços B2B Locais',
+                    description: 'Consultoria especializada em criar e otimizar a presença digital de pequenos negócios (restaurantes, salões, lojas de bairro) com foco em SEO local, Google Meu Negócio e campanhas de anúncios geolocalizadas.',
+                    keySuccessFactor: 'Resultados mensuráveis e rápidos, linguagem acessível para não especialistas, foco em retorno sobre investimento (ROI) e um serviço altamente personalizado e local.',
+                    whyChampion: 'Muitos pequenos negócios locais ainda lutam com a digitalização. Este serviço oferece uma solução prática e direcionada, ajudando-os a atrair clientes na sua região sem a necessidade de grandes orçamentos ou conhecimentos técnicos aprofundados.'
+                }
+            ],
+            essentialInfo: [
+                { title: 'Aspectos Legais e Burocracia', content: 'Registro de CNPJ, licenças, alvarás, contratos sociais e fiscais. É fundamental consultar um contador e um advogado especializados para garantir que seu negócio esteja totalmente formalizado e em conformidade com a legislação, evitando problemas futuros.' },
+                { title: 'Gestão Financeira Descomplicada', content: 'Controle de fluxo de caixa (entradas e saídas de dinheiro), precificação correta de produtos/serviços, gestão de capital de giro e planejamento orçamentário. Manter as finanças organizadas é crucial para a saúde do seu negócio e para evitar surpresas desagradáveis.' },
+                { title: 'Marketing e Vendas Eficazes', content: 'Conheça profundamente seu público-alvo, defina uma proposta de valor clara e utilize estratégias de marketing digital (redes sociais, SEO, e-mail marketing, tráfego pago). Foque na construção de uma marca forte e no relacionamento com o cliente.' },
+                { title: 'Gestão de Pessoas e Cultura', content: 'Contrate os talentos certos, invista em treinamento e desenvolvimento, crie um ambiente de trabalho positivo e valorize sua equipe. Colaboradores engajados e satisfeitos são seu maior ativo e impulsionam o sucesso do negócio.' },
+                { title: 'Inovação e Adaptabilidade Constante', content: 'O mercado está em constante mudança. Esteja sempre aberto a novas ideias, monitore tendências, utilize feedbacks dos clientes para aprimorar e seja flexível para adaptar seu modelo de negócio e estratégias quando necessário para se manter relevante.' }
+            ]
+        };
+
+        /**
+         * Preenche o dropdown de setores com os dados do marketData.
+         */
+        function populateSectorDropdown() {
+            sectorSelect.innerHTML = '<option value="">Selecione um setor...</option>'; // Reseta e adiciona opção padrão
+            marketData.sectors.forEach(sector => {
+                const option = document.createElement('option');
+                option.value = sector.name;
+                option.textContent = sector.name;
+                sectorSelect.appendChild(option);
+            });
+        }
+
+        /**
+         * Exibe os dados detalhados de um setor selecionado.
+         */
+        function displayDetailedSectorAnalysis() {
+            const selectedSectorName = sectorSelect.value;
+            const selectedSector = marketData.sectors.find(s => s.name === selectedSectorName);
+
+            if (selectedSector) {
+                selectedSectorDetailsDiv.innerHTML = `
+                    <h4>Análise Detalhada para ${selectedSector.name}</h4>
+                    <p><strong>Situação Atual:</strong> ${selectedSector.status}</p>
+                    <p><strong>Tendência:</strong> ${selectedSector.trend}</p>
+                    <h4>Oportunidades:</h4>
+                    <ul>
+                        ${selectedSector.opportunities.map(o => `<li>${o}</li>`).join('')}
+                    </ul>
+                    <h4>Desafios:</h4>
+                    <ul>
+                        ${selectedSector.challenges.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                    <h4>Fatores Chave de Sucesso:</h4>
+                    <ul>
+                        ${selectedSector.keySuccessFactors.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                    <h4>Recomendação Estratégica:</h4>
+                    <p>${selectedSector.recommendation}</p>
+                `;
+            } else {
+                selectedSectorDetailsDiv.innerHTML = '<p>Selecione um setor acima para ver sua análise detalhada.</p>';
+            }
+        }
+
+        /**
+         * Exibe os dados de análise de mercado na tabela e as dicas.
+         */
+        function displayMarketAnalysis() {
+            // Preenche a tabela de setores
+            sectorDataTable.innerHTML = '';
+            marketData.sectors.forEach(sector => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${sector.name}</td>
+                    <td style="color: ${sector.status === 'Alta' ? 'green' : sector.status === 'Estável' ? 'orange' : 'red'}; font-weight: 600;">${sector.status}</td>
+                    <td>${sector.trend}</td>
+                `;
+                sectorDataTable.appendChild(tr);
+            });
+
+            // Preenche as dicas gerais de mercado
+            marketTipsList.innerHTML = '';
+            marketData.tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                marketTipsList.appendChild(li);
+            });
+
+            // Preenche as dicas de concorrência
+            competitionTipsList.innerHTML = '';
+            marketData.competitionTips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                competitionTipsList.appendChild(li);
+            });
+
+            // Preenche os produtos campeões
+            championProductsListDiv.innerHTML = '';
+            marketData.championProducts.forEach(product => {
+                const div = document.createElement('div');
+                div.classList.add('champion-product-card');
+                div.innerHTML = `
+                    <h4>${product.name}</h4>
+                    <p><strong>Nicho:</strong> ${product.niche}</p>
+                    <p>${product.description}</p>
+                    <p><strong>Fator Chave de Sucesso:</strong> ${product.keySuccessFactor}</p>
+                    <span><strong>Por que é um Campeão:</strong> ${product.whyChampion}</span>
+                `;
+                championProductsListDiv.appendChild(div);
+            });
+
+            // Preenche as informações essenciais
+            essentialInfoList.innerHTML = '';
+            marketData.essentialInfo.forEach(info => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${info.title}:</strong> ${info.content}`;
+                essentialInfoList.appendChild(li);
+            });
+        }
+
+        /**
+         * Atualiza o nível de concorrência simulada com base no campo de texto de concorrentes.
+         */
+        function updateCompetitionAnalysis() {
+            const competitorsText = competitorsTextarea.value.trim();
+            let competitionLevel = 'Não Avaliado';
+
+            if (competitorsText.length > 100) {
+                competitionLevel = 'Alta';
+                simulatedCompetitionLevelSpan.style.color = 'red';
+            } else if (competitorsText.length > 20) {
+                competitionLevel = 'Média';
+                simulatedCompetitionLevelSpan.style.color = 'orange';
+            } else if (competitorsText.length > 0) {
+                competitionLevel = 'Baixa';
+                simulatedCompetitionLevelSpan.style.color = 'green';
+            } else {
+                 competitionLevel = 'Não Informado';
+                 simulatedCompetitionLevelSpan.style.color = 'gray';
+            }
+            simulatedCompetitionLevelSpan.textContent = competitionLevel;
+        }
+
+        /**
+         * Atualiza a exibição de faturamento do mês passado, crescimento e meta batida.
+         */
+        function updateRevenueDisplay() {
+            let currentPlan = null;
+            if (currentEditingPlanId) {
+                currentPlan = businessPlans.find(p => p.id === currentEditingPlanId);
+            }
+
+            const monthlyGoal = parseFloat(monthlyGoalInput.value) || 0;
+            const currentMonthRevenue = parseFloat(currentMonthRevenueInput.value) || 0;
+            const lastMonthRevenue = currentPlan ? (parseFloat(currentPlan.lastMonthRevenue) || 0) : 0;
+
+            // Exibe faturamento do mês passado
+            lastMonthRevenueDisplay.textContent = lastMonthRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Calcula crescimento/queda
+            growthOrDeclineDisplay.className = ''; // Limpa classes anteriores
+            if (lastMonthRevenue > 0) {
+                const change = currentMonthRevenue - lastMonthRevenue;
+                const percentageChange = (change / lastMonthRevenue) * 100;
+                if (change > 0) {
+                    growthOrDeclineDisplay.textContent = `+${percentageChange.toFixed(2)}% ( ${change.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })})`;
+                    growthOrDeclineDisplay.classList.add('growth');
+                } else if (change < 0) {
+                    growthOrDeclineDisplay.textContent = `${percentageChange.toFixed(2)}% ( ${change.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })})`;
+                    growthOrDeclineDisplay.classList.add('decline');
+                } else {
+                    growthOrDeclineDisplay.textContent = '0% (Estável)';
+                    growthOrDeclineDisplay.classList.add('neutral');
+                }
+            } else if (currentMonthRevenue > 0) {
+                growthOrDeclineDisplay.textContent = `${currentMonthRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} (Primeiro Registro)`;
+                growthOrDeclineDisplay.classList.add('growth');
+            } else {
+                growthOrDeclineDisplay.textContent = 'N/A';
+            }
+
+            // Verifica se a meta foi batida
+            goalMetDisplay.className = ''; // Limpa classes anteriores
+            if (monthlyGoal > 0) {
+                if (currentMonthRevenue >= monthlyGoal) {
+                    goalMetDisplay.textContent = 'Sim! �';
+                    goalMetDisplay.classList.add('goal-met');
+                } else {
+                    const remaining = monthlyGoal - currentMonthRevenue;
+                    goalMetDisplay.textContent = `Não (Faltam ${remaining.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })})`;
+                    goalMetDisplay.classList.add('goal-not-met');
+                }
+            } else {
+                goalMetDisplay.textContent = 'Meta não definida';
+            }
+        }
+
+
+        // --- Função de Avaliação Automática do Plano ---
+
+        /**
+         * Realiza uma avaliação simples do plano de negócio.
+         */
+        function evaluatePlan() {
+            const planName = planNameInput.value.trim();
+            const objective = objectiveTextarea.value.trim();
+            const strategy = strategyTextarea.value.trim();
+            const metrics = metricsTextarea.value.trim();
+            const goals = goalsTextarea.value.trim();
+            const competitors = competitorsTextarea.value.trim();
+
+            const monthlyGoal = parseFloat(monthlyGoalInput.value) || 0;
+            const currentMonthRevenue = parseFloat(currentMonthRevenueInput.value) || 0;
+
+
+            let feedback = [];
+
+            if (!planName) {
+                feedback.push('❗ **Nome do Plano:** Por favor, dê um nome claro ao seu plano.');
+            } else {
+                feedback.push('✅ **Nome do Plano:** Bem definido!');
+            }
+
+            if (objective.length < 50) {
+                feedback.push('⚠️ **Objetivo:** Tente detalhar mais seu objetivo. Seja específico sobre o que deseja alcançar.');
+            } else {
+                feedback.push('✅ **Objetivo:** Bem articulado. Isso é um ótimo começo!');
+            }
+
+            if (strategy.length < 80) {
+                feedback.push('⚠️ **Estratégia:** Sua estratégia precisa ser mais detalhada. Pense em como você vai realmente executar seus planos.');
+            } else {
+                feedback.push('✅ **Estratégia:** Parece bem pensada e abrangente.');
+            }
+
+            if (metrics.length < 30) {
+                feedback.push('⚠️ **Métricas:** Como você vai medir o sucesso? Defina métricas claras para acompanhar seu progresso.');
+            } else {
+                feedback.push('✅ **Métricas:** Ótimas métricas para acompanhar seu desempenho.');
+            }
+
+            if (goals.length < 50) {
+                feedback.push('⚠️ **Metas:** Suas metas poderiam ser mais SMART (Específicas, Mensuráveis, Atingíveis, Relevantes, Temporizáveis).');
+            } else {
+                feedback.push('✅ **Metas:** Metas claras e inspiradoras. Parabéns!');
+            }
+
+            if (competitors.length < 20) {
+                feedback.push('⚠️ **Concorrência:** Analise mais seus concorrentes. Quem são eles e o que os torna únicos?');
+            } else if (competitors.length > 200) {
+                feedback.push('✅ **Concorrência:** Detalhamento da concorrência adequado, o que é ótimo para o planejamento!');
+            } else {
+                feedback.push('✅ **Concorrência:** Sua análise de concorrência é boa. Considere detalhar um pouco mais.');
+            }
+
+            // Feedback para a nova seção de faturamento
+            if (monthlyGoal <= 0) {
+                feedback.push('⚠️ **Meta de Faturamento:** Defina uma meta de faturamento mensal para acompanhar seu desempenho.');
+            } else {
+                feedback.push('✅ **Meta de Faturamento:** Meta mensal definida. Bom para o acompanhamento!');
+            }
+            if (currentMonthRevenue <= 0) {
+                feedback.push('⚠️ **Faturamento Atual:** Registre seu faturamento atual para uma avaliação completa.');
+            } else {
+                feedback.push('✅ **Faturamento Atual:** Faturamento registrado. Ótimo para análise de desempenho.');
+            }
+
+
+            if (feedback.length === 0) {
+                feedback.push('🎉 Seu plano parece excelente! Continue com o ótimo trabalho.');
+            } else if (feedback.every(f => f.startsWith('✅'))) {
+                 feedback.unshift('**Análise Geral:** Seu plano está muito bom e completo!');
+            } else if (feedback.every(f => f.startsWith('⚠️') || f.startsWith('❗'))) {
+                feedback.unshift('**Análise Geral:** O plano precisa de mais desenvolvimento. Preencha todos os campos com mais detalhes para uma avaliação mais precisa!');
+            } else {
+                feedback.unshift('**Análise Geral:** Seu plano tem pontos fortes, mas ainda há áreas para detalhar e aprimorar.');
+            }
+
+            evaluationResultDiv.innerHTML = feedback.join('<br>');
+            exibirMensagem('Plano avaliado!', 2000);
+        }
+
+        /**
+         * Gera um relatório de desempenho e plano de negócio em uma nova janela.
+         */
+        function generatePerformanceReport() {
+            let reportContent = `
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Relatório de Desempenho - Impulso Empreendedor</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        body { font-family: 'Inter', sans-serif; margin: 20px; color: #333; line-height: 1.6; }
+                        h1 { color: rgb(144, 238, 144); text-align: center; margin-bottom: 25px; border-bottom: 2px solid rgb(180, 255, 180); padding-bottom: 10px; }
+                        h2 { color: #555; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 30px; }
+                        .section-box { background-color: #f9f9f9; border: 1px solid rgb(180, 255, 180); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+                        p strong { color: rgb(144, 238, 144); }
+                        ul { list-style: disc; padding-left: 20px; }
+                        ul li { margin-bottom: 5px; }
+                        .growth { color: green; font-weight: bold; }
+                        .decline { color: red; font-weight: bold; }
+                        .neutral { color: orange; font-weight: bold; }
+                        .goal-met { color: green; font-weight: bold; }
+                        .goal-not-met { color: red; font-weight: bold; }
+                        @media print {
+                            body { margin: 0; }
+                            .section-box { box-shadow: none; border: 1px solid #eee; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Relatório de Desempenho e Planejamento</h1>
+            `;
+
+            let currentPlan = null;
+            if (currentEditingPlanId) {
+                currentPlan = businessPlans.find(p => p.id === currentEditingPlanId);
+            }
+
+            // --- Dados de Faturamento ---
+            const monthlyGoal = parseFloat(monthlyGoalInput.value) || 0;
+            const currentMonthRevenue = parseFloat(currentMonthRevenueInput.value) || 0;
+            const lastMonthRevenue = currentPlan ? (parseFloat(currentPlan.lastMonthRevenue) || 0) : 0;
+
+            let growthText = 'N/A';
+            let growthClass = '';
+            if (lastMonthRevenue > 0) {
+                const change = currentMonthRevenue - lastMonthRevenue;
+                const percentageChange = (change / lastMonthRevenue) * 100;
+                if (change > 0) {
+                    growthText = `+${percentageChange.toFixed(2)}% ( ${change.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })})`;
+                    growthClass = 'growth';
+                } else if (change < 0) {
+                    growthText = `${percentageChange.toFixed(2)}% ( ${change.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })})`;
+                    growthClass = 'decline';
+                } else {
+                    growthText = '0% (Estável)';
+                    growthClass = 'neutral';
+                }
+            } else if (currentMonthRevenue > 0) {
+                growthText = `${currentMonthRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} (Primeiro Registro)`;
+                growthClass = 'growth';
+            }
+
+            let goalText = 'Meta não definida';
+            let goalClass = '';
+            if (monthlyGoal > 0) {
+                if (currentMonthRevenue >= monthlyGoal) {
+                    goalText = 'Sim! 🎉';
+                    goalClass = 'goal-met';
+                } else {
+                    const remaining = monthlyGoal - currentMonthRevenue;
+                    goalText = `Não (Faltam ${remaining.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })})`;
+                    goalClass = 'goal-not-met';
+                }
+            }
+
+            reportContent += `
+                <div class="section-box">
+                    <h2>Dados de Faturamento Mensal</h2>
+                    <p><strong>Meta de Faturamento (Mês Atual):</strong> ${monthlyGoal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                    <p><strong>Faturamento do Mês Atual:</strong> ${currentMonthRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                    <p><strong>Faturamento do Mês Passado:</strong> ${lastMonthRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                    <p><strong>Crescimento/Queda:</strong> <span class="${growthClass}">${growthText}</span></p>
+                    <p><strong>Meta Batida?:</strong> <span class="${goalClass}">${goalText}</span></p>
+                </div>
+            `;
+
+            // --- Resumo do Plano de Negócio ---
+            if (currentPlan) {
+                reportContent += `
+                    <div class="section-box">
+                        <h2>Resumo do Plano de Negócio</h2>
+                        <p><strong>Nome do Plano:</strong> ${currentPlan.name}</p>
+                        <p><strong>Objetivo:</strong> ${currentPlan.objective || 'Não informado.'}</p>
+                        <p><strong>Estratégia:</strong> ${currentPlan.strategy || 'Não informado.'}</p>
+                        <p><strong>Métricas:</strong> ${currentPlan.metrics || 'Não informado.'}</p>
+                        <p><strong>Metas:</strong> ${currentPlan.goals || 'Não informado.'}</p>
+                        <p><strong>Concorrentes Registrados:</strong> ${currentPlan.competitors || 'Não informado.'}</p>
+                    </div>
+                `;
+            } else {
+                reportContent += `
+                    <div class="section-box">
+                        <h2>Resumo do Plano de Negócio</h2>
+                        <p>Nenhum plano de negócio está sendo editado. Crie ou carregue um plano para ver seu resumo aqui.</p>
+                    </div>
+                `;
+            }
+
+            // --- Setores em Destaque (resumo) ---
+            const highGrowthSectors = marketData.sectors.filter(s => s.status === 'Alta');
+            if (highGrowthSectors.length > 0) {
+                reportContent += `
+                    <div class="section-box">
+                        <h2>Setores em Destaque (Mercado)</h2>
+                        <ul>
+                `;
+                highGrowthSectors.slice(0, 3).forEach(sector => { // Limita a 3 para o relatório
+                    reportContent += `<li><strong>${sector.name}:</strong> ${sector.trend}</li>`;
+                });
+                reportContent += `
+                        </ul>
+                        <p>Para uma análise mais detalhada, acesse a seção de Análise de Mercado na plataforma.</p>
+                    </div>
+                `;
+            }
+
+             // --- Análise do Setor Selecionado (se houver) ---
+            const selectedSectorNameForReport = sectorSelect.value;
+            const selectedSectorForReport = marketData.sectors.find(s => s.name === selectedSectorNameForReport);
+
+            if (selectedSectorForReport) {
+                reportContent += `
+                    <div class="section-box">
+                        <h2>Análise Detalhada do Setor: ${selectedSectorForReport.name}</h2>
+                        <p><strong>Situação Atual:</strong> ${selectedSectorForReport.status}</p>
+                        <p><strong>Tendência:</strong> ${selectedSectorForReport.trend}</p>
+                        <h4>Oportunidades:</h4><ul>`;
+                selectedSectorForReport.opportunities.forEach(opp => { reportContent += `<li>${opp}</li>`; });
+                reportContent += `</ul><h4>Desafios:</h4><ul>`;
+                selectedSectorForReport.challenges.forEach(chal => { reportContent += `<li>${chal}</li>`; });
+                reportContent += `</ul><h4>Fatores Chave de Sucesso:</h4><ul>`;
+                selectedSectorForReport.keySuccessFactors.forEach(factor => { reportContent += `<li>${factor}</li>`; });
+                reportContent += `</ul><h4>Recomendação Estratégica:</h4><p>${selectedSectorForReport.recommendation}</p></div>`; // Inclui a recomendação no relatório
+            }
+
+
+            // --- Informações Essenciais (resumo) ---
+            if (marketData.essentialInfo.length > 0) {
+                reportContent += `
+                    <div class="section-box">
+                        <h2>Informações Essenciais para o Empreendedor</h2>
+                        <ul>
+                `;
+                marketData.essentialInfo.slice(0, 2).forEach(info => { // Limita a 2 para o relatório
+                    reportContent += `<li><strong>${info.title}:</strong> ${info.content.substring(0, 100)}...</li>`; // Pequeno resumo
+                });
+                reportContent += `
+                        </ul>
+                        <p>Explore todos os recursos e informações na seção "Recursos e Informações Essenciais".</p>
+                    </div>
+                `;
+            }
+
+
+            reportContent += `
+                </body>
+                </html>
+            `;
+
+            const reportWindow = window.open('', '_blank', 'width=800,height=700,scrollbars=yes');
+            if (reportWindow) {
+                reportWindow.document.write(reportContent);
+                reportWindow.document.close(); // Fecha o documento para que o navegador comece a renderizar
+                reportWindow.focus();
+                // Adiciona um pequeno delay para garantir que o conteúdo foi renderizado antes de imprimir
+                setTimeout(() => {
+                    reportWindow.print();
+                    // reportWindow.close(); // Opcional: fechar a janela após a impressão
+                }, 500); // Meio segundo de delay
+            } else {
+                exibirMensagem('Não foi possível abrir a janela do relatório. Verifique se pop-ups estão bloqueados.', 5000);
+            }
+        }
+
+
+        // --- Inicialização e Event Listeners ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPlans(); // Carrega os planos ao iniciar a página
+            populateSectorDropdown(); // Preenche o dropdown de setores
+            displayMarketAnalysis(); // Exibe os dados de mercado e os novos conteúdos
+            clearEditor(); // Garante que o editor esteja limpo ao carregar
+        });
+
+        savePlanBtn.addEventListener('click', savePlan);
+        newPlanBtn.addEventListener('click', clearEditor);
+        deletePlanBtn.addEventListener('click', (e) => {
+            if (currentEditingPlanId) {
+                deletePlan(currentEditingPlanId, e);
+            } else {
+                exibirMensagem('Nenhum plano selecionado para exclusão.', 2000);
+            }
+        });
+        exportPdfBtn.addEventListener('click', exportPlanAsPdf);
+        evaluatePlanBtn.addEventListener('click', evaluatePlan);
+        competitorsTextarea.addEventListener('input', updateCompetitionAnalysis);
+
+        // Event listeners para a nova seção de faturamento
+        monthlyGoalInput.addEventListener('input', updateRevenueDisplay);
+        currentMonthRevenueInput.addEventListener('input', updateRevenueDisplay);
+        updateRevenueBtn.addEventListener('click', () => {
+             if (currentEditingPlanId) {
+                 savePlan(); // Salva os dados de faturamento ao clicar em "Atualizar Dados"
+                 exibirMensagem('Dados de faturamento atualizados!', 2000);
+             } else {
+                 exibirMensagem('Selecione ou crie um plano para atualizar o faturamento!', 2500);
+             }
+        });
+        generateReportBtn.addEventListener('click', generatePerformanceReport); // Evento para o novo botão de relatório
+
+        // Event listener para o dropdown de setores
+        sectorSelect.addEventListener('change', displayDetailedSectorAnalysis);
+
+
+        // JavaScript para rolagem suave ao clicar nos botões CTA (mantido para consistência)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId === '#topo' ? 'body' : targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+�

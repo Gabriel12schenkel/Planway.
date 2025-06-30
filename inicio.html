@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o Plan Way</title>
+    <!-- Link para a fonte Inter do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos CSS globais e específicos da página */
+        :root {
+            --cor-principal: rgb(144, 238, 144); /* Verde Claro */
+            --cor-principal-claro: rgb(180, 255, 180);
+            --cor-texto-escuro: #333;
+            --cor-texto-claro: #f0f0f0;
+            --cor-fundo-claro: #ffffff;
+            --cor-fundo-escuro: #f7f7f7;
+            --sombra-card: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicao-suave: all 0.3s ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--cor-fundo-escuro);
+            color: var(--cor-texto-escuro);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Estrutura principal da aplicação */
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Seção de cabeçalho (Header) */
+        .header {
+            background-color: var(--cor-principal-claro);
+            padding: 1.5rem 1rem;
+            box-shadow: var(--sombra-card);
+            text-align: center;
+            border-bottom: 3px solid var(--cor-principal);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-texto-claro);
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 0.5rem;
+        }
+
+        /* Layout principal do conteúdo - área principal */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            border: 1px solid var(--cor-principal-claro);
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Estilo comum para seções */
+        .about-section {
+            background-color: var(--cor-fundo-claro);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+        }
+
+        .about-section h2 {
+            font-size: 2rem;
+            color: var(--cor-principal);
+            margin-top: 0;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 2px solid var(--cor-principal-claro);
+        }
+
+        .about-section p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .about-section h3 {
+            font-size: 1.5rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            border-bottom: 1px dashed var(--cor-principal-claro);
+            padding-bottom: 0.5rem;
+        }
+
+        .about-section ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-section ul li {
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            background-color: var(--cor-fundo-escuro);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--cor-principal-claro);
+        }
+        .about-section ul li strong {
+            color: var(--cor-principal);
+        }
+
+        /* Seção de Depoimentos */
+        .testimonials-section {
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--cor-fundo-escuro);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            position: relative;
+            padding-left: 3rem;
+        }
+        .testimonial-card::before {
+            content: "“";
+            font-size: 4rem;
+            color: var(--cor-principal-claro);
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            line-height: 1;
+            font-family: serif;
+        }
+
+        .testimonial-card p {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .testimonial-card .author {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--cor-principal);
+            font-style: normal;
+            margin-top: 1rem;
+        }
+
+        /* Rodapé (Footer) */
+        .footer {
+            background-color: var(--cor-texto-escuro);
+            color: var(--cor-texto-claro);
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        /* Mensagem flutuante (para feedback de usuário) */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            font-weight: 500;
+        }
+        .message-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .main-content {
+                padding: 1.5rem 0.5rem;
+            }
+            .about-section {
+                padding: 1.5rem;
+            }
+            .about-section h2 {
+                font-size: 1.8rem;
+            }
+            .about-section p, .about-section ul li, .testimonial-card p {
+                font-size: 0.95rem;
+            }
+            .testimonial-card::before {
+                font-size: 3rem;
+                left: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+            .about-section h2 {
+                font-size: 1.6rem;
+            }
+            .testimonial-card {
+                padding-left: 2rem;
+            }
+            .testimonial-card::before {
+                font-size: 2.5rem;
+                left: 5px;
+                top: 10px;
+            }
+        }
+    </style>
+<nav style="
+    background: linear-gradient(90deg, rgb(144, 238, 144), rgb(34, 139, 34));
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+">
+  <ul style="
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      gap: 30px;
+  ">
+    <li><a href="/inicio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Início</a></li>
+    <li><a href="/planejamento" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Planejamento</a></li>
+    <li><a href="/financeiro" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Financeiro</a></li>
+    <li><a href="/marketing" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Marketing</a></li>
+    <li><a href="/seja-socio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Seja Sócio</a></li>
+    <li><a href="/fornecedor" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Fornecedores</a></li>
+  </ul>
+</nav>
+
+
+
+
+</head>
+<body>
+    <div id="root">
+        <!-- Cabeçalho Principal -->
+        <header class="header">
+            <h1>Plan Way</h1>
+            <p>Seu parceiro para o sucesso do seu negócio.</p>
+        </header>
+
+        <!-- Seção Principal de Conteúdo -->
+        <main class="main-content">
+            <div class="about-section">
+                <h2>Bem-vindo ao Plan Way!</h2>
+                <p>Nossa plataforma foi cuidadosamente desenvolvida para ser o seu guia completo no mundo do empreendedorismo. Sabemos que iniciar e escalar um negócio pode ser desafiador, por isso reunimos as ferramentas e informações essenciais em um só lugar.</p>
+                <p>Nosso propósito é <strong>capacitar pequenos e médios negócios</strong> a se estruturarem de forma sólida, crescerem de maneira sustentável e se tornarem mais competitivos no mercado. Acreditamos que com as ferramentas certas e o conhecimento adequado, qualquer empreendedor pode alcançar o sucesso.</p>
+
+                <h3>Como o Plan Way pode te ajudar?</h3>
+                <ul>
+                    <li>
+                        <strong>Aba de Planejamento:</strong> Estruture suas ideias com nosso editor de plano de negócio. Defina objetivos, estratégias e metas. Utilize a ferramenta de <strong>análise de mercado</strong> para entender tendências, identificar oportunidades em nichos específicos e analisar a concorrência. Além disso, acompanhe seu faturamento mensal e compare seu crescimento com o mês anterior para tomar decisões baseadas em dados.
+                    </li>
+                    <li>
+                        <strong>Aba Marketplace de Fornecedores:</strong> Conecte-se com uma rede de fornecedores confiáveis e de qualidade, organizados por categorias como roupas, alimentos, eletrônicos e serviços. Encontre o parceiro ideal para reduzir custos, otimizar sua produção e garantir a excelência dos seus produtos ou serviços.
+                    </li>
+                    <li>
+                        <strong>Mais por vir...</strong> Estamos constantemente trabalhando para adicionar novas ferramentas e recursos que o ajudarão em áreas como finanças, marketing, gestão de equipe e muito mais!
+                    </li>
+                </ul>
+
+                <h3>Nossa Missão</h3>
+                <p>Impulsionar o sucesso de empreendedores, fornecendo acesso a conhecimento, ferramentas e conexões estratégicas, para que seus negócios não apenas sobrevivam, mas prosperem e contribuam para um ecossistema econômico mais forte e inovador.</p>
+            </div>
+
+            <!-- Seção de Depoimentos -->
+            <div class="about-section testimonials-section">
+                <h2>O que nossos usuários dizem:</h2>
+                {% for depoimento in depoimentos %}
+                <div class="testimonial-card">
+                    <p>{{ depoimento.texto }}</p>
+                    <span class="author">— {{ depoimento.autor }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <p>&copy; 2025 Plan Way. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Funções de Utilitário
+        function exibirMensagem(texto, duracao = 3000) {
+            let mensagemDiv = document.querySelector('.message-box');
+            if (!mensagemDiv) {
+                mensagemDiv = document.createElement('div');
+                mensagemDiv.classList.add('message-box');
+                document.body.appendChild(mensagemDiv);
+            }
+
+            mensagemDiv.textContent = texto;
+            mensagemDiv.classList.add('show');
+
+            setTimeout(() => {
+                mensagemDiv.classList.remove('show');
+                setTimeout(() => {
+                    if (!mensagemDiv.classList.contains('show')) {
+                        mensagemDiv.remove();
+                    }
+                }, 500);
+            }, duracao);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializações se necessário
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seja Sócio - Apoio ao Empreendedor</title>
+    <style>
+        /* Reset básico para consistência */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Estilo do contêiner principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Cabeçalho da aba */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background-color: rgb(144, 238, 144);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Seção de empresas disponíveis */
+        .companies-section {
+            margin-bottom: 50px;
+        }
+
+        .companies-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: rgb(144, 238, 144);
+            text-align: center;
+        }
+
+        /* Lista de nichos */
+        .niche-list {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .niche-list li {
+            list-style: none;
+        }
+
+        .niche-list button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #fff;
+            color: rgb(144, 238, 144);
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid rgb(144, 238, 144);
+        }
+
+        .niche-list button:hover {
+            background-color: rgb(144, 238, 144);
+            color: #fff;
+        }
+
+        .niche-list button.active {
+            background-color: rgb(144, 238, 144);
+            color: #fff;
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .company-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: none; /* Inicialmente escondido, mostrado via JS */
+        }
+
+        .company-card.visible {
+            display: block;
+        }
+
+        .company-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .company-card h3 {
+            font-size: 1.5em;
+            color: rgb(144, 238, 144);
+            margin-bottom: 10px;
+        }
+
+        .company-card p {
+            margin-bottom: 10px;
+            font-size: 1em;
+            color: #555;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: rgb(144, 238, 144);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: rgb(100, 200, 100);
+        }
+
+        /* Seção do formulário */
+        .form-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-section h2 {
+            font-size: 1.8em;
+            color: rgb(144, 238, 144);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: rgb(144, 238, 144);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: rgb(100, 200, 100);
+        }
+
+        /* Mensagem de feedback */
+        #form-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .success {
+            background-color: rgb(144, 238, 144);
+            color: #fff;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .company-card {
+                padding: 15px;
+            }
+
+            .niche-list {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .niche-list button {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+<nav style="
+    background: linear-gradient(90deg, rgb(144, 238, 144), rgb(34, 139, 34));
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+">
+  <ul style="
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      gap: 30px;
+  ">
+    <li><a href="/inicio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Início</a></li>
+    <li><a href="/planejamento" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Planejamento</a></li>
+    <li><a href="/financeiro" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Financeiro</a></li>
+    <li><a href="/marketing" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Marketing</a></li>
+    <li><a href="/seja-socio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Seja Sócio</a></li>
+    <li><a href="/fornecedor" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Fornecedores</a></li>
+  </ul>
+</nav>
+
+
+
+
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho da aba -->
+        <header>
+            <h1>Seja Sócio</h1>
+        </header>
+
+        <!-- Seção de empresas disponíveis -->
+        <section class="companies-section">
+            <h2>Empresas Disponíveis para Sociedade ou Investimento</h2>
+            <!-- Lista de nichos -->
+            <ul class="niche-list">
+                <li><button class="niche-btn active" data-niche="all">Todos</button></li>
+                <li><button class="niche-btn" data-niche="tecnologia">Tecnologia</button></li>
+                <li><button class="niche-btn" data-niche="sustentabilidade">Sustentabilidade</button></li>
+                <li><button class="niche-btn" data-niche="alimentacao">Alimentação</button></li>
+            </ul>
+            <div class="companies-grid">
+                <!-- Empresa 1 -->
+                <div class="company-card" data-niche="tecnologia">
+                    <h3>TechTrend Inovação</h3>
+                    <p><strong>Nicho:</strong> Tecnologia</p>
+                    <p><strong>Descrição:</strong> Startup focada em soluções de IA para automação de processos empresariais.</p>
+                    <p><strong>Localização:</strong> São Paulo, SP</p>
+                    <p><strong>Faturamento Estimado:</strong> R$ 500.000/ano</p>
+                    <p><strong>Tipo de Parceria:</strong> Investidor ou Sócio Operacional</p>
+                    <a href="mailto:contato@techtrend.com?subject=Interesse em Parceria" class="contact-btn">Entrar em Contato</a>
+                </div>
+                <!-- Empresa 2 -->
+                <div class="company-card" data-niche="tecnologia">
+                    <h3>CodeZap Soluções</h3>
+                    <p><strong>Nicho:</strong> Tecnologia</p>
+                    <p><strong>Descrição:</strong> Empresa de desenvolvimento de aplicativos móveis personalizados.</p>
+                    <p><strong>Localização:</strong> Campinas, SP</p>
+                    <p><strong>Faturamento Estimado:</strong> R$ 400.000/ano</p>
+                    <p><strong>Tipo de Parceria:</strong> Sócio Investidor</p>
+                    <a href="mailto:contato@codezap.com?subject=Interesse em Parceria" class="contact-btn">Entrar em Contato</a>
+                </div>
+                <!-- Empresa 3 (EcoVida com nova página) -->
+                <div class="company-card" data-niche="sustentabilidade">
+                    <h3>EcoVida Sustentável</h3>
+                    <p><strong>Nicho:</strong> Sustentabilidade</p>
+                    <p><strong>Descrição:</strong> Empresa de produtos ecológicos, como embalagens biodegradáveis.</p>
+                    <p><strong>Localização:</strong> Florianópolis, SC</p>
+                    <p><strong>Faturamento Estimado:</strong> R$ 300.000/ano</p>
+                    <p><strong>Tipo de Parceria:</strong> Sócio Investidor</p>
+                    <a href="ecovida-contato.html" target="_blank" class="contact-btn">Entrar em Contato</a>
+                </div>
+                <!-- Empresa 4 -->
+                <div class="company-card" data-niche="sustentabilidade">
+                    <h3>VerdeFuturo</h3>
+                    <p><strong>Nicho:</strong> Sustentabilidade</p>
+                    <p><strong>Descrição:</strong> Consultoria para implementação de práticas sustentáveis em PMEs.</p>
+                    <p><strong>Localização:</strong> Curitiba, PR</p>
+                    <p><strong>Faturamento Estimado:</strong> R$ 250.000/ano</p>
+                    <p><strong>Tipo de Parceria:</strong> Sócio Operacional</p>
+                    <a href="mailto:contato@verdefuturo.com?subject=Interesse em Parceria" class="contact-btn">Entrar em Contato</a>
+                </div>
+                <!-- Empresa 5 -->
+                <div class="company-card" data-niche="alimentacao">
+                    <h3>Sabor Caseiro</h3>
+                    <p><strong>Nicho:</strong> Alimentação</p>
+                    <p><strong>Descrição:</strong> Rede de restaurantes de comida caseira com foco em expansão regional.</p>
+                    <p><strong>Localização:</strong> Belo Horizonte, MG</p>
+                    <p><strong>Faturamento Estimado:</strong> R$ 800.000/ano</p>
+                    <p><strong>Tipo de Parceria:</strong> Sócio Operacional</p>
+                    <a href="mailto:contato@saborcaseiro.com?subject=Interesse em Parceria" class="contact-btn">Entrar em Contato</a>
+                </div>
+                <!-- Empresa 6 -->
+                <div class="company-card" data-niche="alimentacao">
+                    <h3>Delícia Natural</h3>
+                    <p><strong>Nicho:</strong> Alimentação</p>
+                    <p><strong>Descrição:</strong> Produção de alimentos orgânicos e saudáveis para varejo.</p>
+                    <p><strong>Localização:</strong> Recife, PE</p>
+                    <p><strong>Faturamento Estimado:</strong> R$ 600.000/ano</p>
+                    <p><strong>Tipo de Parceria:</strong> Investidor</p>
+                    <a href="mailto:contato@delicianatural.com?subject=Interesse em Parceria" class="contact-btn">Entrar em Contato</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do formulário de cadastro -->
+        <section class="form-section">
+            <h2>Cadastre Sua Empresa</h2>
+            <form id="company-form">
+                <div class="form-group">
+                    <label for="company-name">Nome da Empresa</label>
+                    <input type="text" id="company-name" name="company-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="segment">Segmento</label>
+                    <select id="segment" name="segment" required>
+                        <option value="">Selecione um segmento</option>
+                        <option value="tecnologia">Tecnologia</option>
+                        <option value="alimentacao">Alimentação</option>
+                        <option value="sustentabilidade">Sustentabilidade</option>
+                        <option value="saude">Saúde</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="location">Cidade/Estado</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="investment">Investimento Procurado (R$)</label>
+                    <input type="number" id="investment" name="investment" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="percentage">Porcentagem da Sociedade (%)</label>
+                    <input type="number" id="percentage" name="percentage" min="1" max="100" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contato (E-mail ou Telefone)</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Descrição da Empresa</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Cadastrar Empresa</button>
+            </form>
+            <div id="form-message"></div>
+        </section>
+    </div>
+
+    <script>
+        // Manipulação da lista de nichos
+        const nicheButtons = document.querySelectorAll('.niche-btn');
+        const companiesGrid = document.querySelector('.companies-grid');
+
+        function updateCompanyCards() {
+            const companyCards = document.querySelectorAll('.company-card');
+            const selectedNiche = document.querySelector('.niche-btn.active').getAttribute('data-niche');
+
+            companyCards.forEach(card => {
+                const cardNiche = card.getAttribute('data-niche');
+                if (selectedNiche === 'all' || selectedNiche === cardNiche) {
+                    card.classList.add('visible');
+                } else {
+                    card.classList.remove('visible');
+                }
+            });
+        }
+
+        nicheButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove a classe 'active' de todos os botões
+                nicheButtons.forEach(btn => btn.classList.remove('active'));
+                // Adiciona a classe 'active' ao botão clicado
+                this.classList.add('active');
+
+                // Atualiza a visibilidade dos cards
+                updateCompanyCards();
+            });
+        });
+
+        // Mostrar todas as empresas ao carregar a página
+        document.querySelector('.niche-btn[data-niche="all"]').click();
+
+        // Manipulação do formulário
+        document.getElementById('company-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Captura os valores do formulário
+            const companyName = document.getElementById('company-name').value;
+            const segment = document.getElementById('segment').value;
+            const location = document.getElementById('location').value;
+            const investment = document.getElementById('investment').value;
+            const percentage = document.getElementById('percentage').value;
+            const contact = document.getElementById('contact').value;
+            const description = document.getElementById('description').value;
+
+            // Validação simples
+            if (!companyName || !segment || !location || !investment || !percentage || !contact || !description) {
+                showMessage('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            // Cria um novo card dinamicamente
+            const newCard = document.createElement('div');
+            newCard.classList.add('company-card');
+            newCard.setAttribute('data-niche', segment);
+            newCard.innerHTML = `
+                <h3>${sanitizeInput(companyName)}</h3>
+                <p><strong>Nicho:</strong> ${sanitizeInput(segment.charAt(0).toUpperCase() + segment.slice(1))}</p>
+                <p><strong>Descrição:</strong> ${sanitizeInput(description)}</p>
+                <p><strong>Localização:</strong> ${sanitizeInput(location)}</p>
+                <p><strong>Faturamento Estimado:</strong> Não informado</p>
+                <p><strong>Tipo de Parceria:</strong> ${sanitizeInput(percentage)}% de sociedade</p>
+                <a href="mailto:${sanitizeInput(contact)}?subject=Interesse em Parceria com ${sanitizeInput(companyName)}" class="contact-btn">Entrar em Contato</a>
+            `;
+
+            // Adiciona o novo card à grade
+            companiesGrid.appendChild(newCard);
+
+            // Atualiza a visibilidade dos cards com base no filtro atual
+            updateCompanyCards();
+
+            // Simulação de envio (pode ser integrado com Flask posteriormente)
+            showMessage('Empresa cadastrada com sucesso! Agora ela aparece na lista acima.', 'success');
+
+            // Limpar formulário
+            this.reset();
+        });
+
+        // Função para sanitizar entradas do usuário
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
+        // Função para exibir mensagens de feedback
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('form-message');
+            messageDiv.textContent = message;
+            messageDiv.className = type;
+            messageDiv.style.display = 'block';
+
+            // Esconder a mensagem após 5 segundos
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financeiro - Plan Way</title>
+    <!-- Link para a fonte Inter do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos CSS globais e específicos da página */
+        :root {
+            --cor-principal: rgb(144, 238, 144); /* Verde Claro */
+            --cor-principal-claro: rgb(180, 255, 180);
+            --cor-texto-escuro: #333;
+            --cor-texto-claro: #f0f0f0;
+            --cor-fundo-claro: #ffffff;
+            --cor-fundo-escuro: #f7f7f7;
+            --sombra-card: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicao-suave: all 0.3s ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--cor-fundo-escuro);
+            color: var(--cor-texto-escuro);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Estrutura principal da aplicação */
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Seção de cabeçalho (Header) */
+        .header {
+            background-color: var(--cor-principal-claro);
+            padding: 1.5rem 1rem;
+            box-shadow: var(--sombra-card);
+            text-align: center;
+            border-bottom: 3px solid var(--cor-principal);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-texto-claro); /* Texto branco */
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 0.5rem;
+        }
+
+        /* Layout principal do conteúdo - área principal */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 1rem;
+            max-width: 1200px; /* Largura um pouco maior para acomodar gráficos */
+            margin: 0 auto;
+            width: 100%;
+            border: 1px solid var(--cor-principal-claro);
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Estilo comum para seções */
+        .finance-section {
+            background-color: var(--cor-fundo-claro);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--sombra-card);
+        }
+
+        .finance-section h2 {
+            font-size: 2rem;
+            color: var(--cor-principal);
+            margin-top: 0;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 2px solid var(--cor-principal-claro);
+        }
+
+        .finance-section h3 {
+            font-size: 1.5rem;
+            color: var(--cor-texto-escuro);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            border-bottom: 1px dashed var(--cor-principal-claro);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Grupos de formulário */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto-escuro);
+            font-weight: 600;
+        }
+
+        .form-group input[type="number"],
+        .form-group select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="number"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--cor-principal);
+            box-shadow: 0 0 0 3px rgba(144, 238, 144, 0.5);
+        }
+
+        /* Displays de resultados */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-box {
+            background-color: var(--cor-fundo-escuro);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal-claro);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .result-box .label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .result-box .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--cor-principal);
+        }
+        .result-box .value.positive { color: green; }
+        .result-box .value.negative { color: red; }
+        .result-box .value.neutral { color: orange; }
+
+        /* Gráficos (placeholders) */
+        .chart-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: var(--cor-fundo-escuro);
+            border: 2px dashed var(--cor-principal);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cor-principal);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Alertas Financeiros */
+        .financial-alerts {
+            margin-top: 2rem;
+            background-color: var(--cor-fundo-escuro);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal);
+            min-height: 80px;
+        }
+        .financial-alerts h4 {
+            color: var(--cor-principal);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .financial-alerts ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .financial-alerts ul li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--cor-texto-escuro);
+        }
+        .financial-alerts ul li.alert-danger { color: red; font-weight: 600; }
+        .financial-alerts ul li.alert-warning { color: orange; font-weight: 600; }
+        .financial-alerts ul li.alert-info { color: green; }
+
+
+        /* Simulador de Preços */
+        .price-simulator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .price-simulator-grid .input-group {
+             background-color: var(--cor-fundo-escuro);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal-claro);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .price-simulator-grid .input-group input {
+            width: calc(100% - 20px);
+        }
+        .price-simulator-grid .result-box {
+            background-color: var(--cor-fundo-escuro);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 1px solid var(--cor-principal); /* Destaque verde */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+            grid-column: span 2; /* Ocupa duas colunas para o resultado */
+            align-self: center;
+        }
+
+        /* Botões */
+        .button-group {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .button-group button {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-escuro);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transicao-suave);
+            box-shadow: var(--sombra-card);
+            margin: 0 0.5rem;
+        }
+        .button-group button:hover {
+            background-color: var(--cor-principal-claro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+
+        /* Rodapé (Footer) */
+        .footer {
+            background-color: var(--cor-texto-escuro);
+            color: var(--cor-texto-claro);
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        /* Mensagem flutuante (para feedback de usuário) */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            font-weight: 500;
+        }
+        .message-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 1024px) {
+            .main-content {
+                padding: 1.5rem 0.5rem;
+            }
+            .results-grid, .price-simulator-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+            .price-simulator-grid .result-box {
+                grid-column: span 1; /* Ocupa uma coluna em telas menores */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .finance-section {
+                padding: 1.5rem;
+            }
+            .finance-section h2 {
+                font-size: 1.8rem;
+            }
+            .finance-section h3 {
+                font-size: 1.3rem;
+            }
+            .form-group label {
+                font-size: 0.9rem;
+            }
+            .form-group input[type="number"],
+            .form-group select {
+                font-size: 0.9rem;
+            }
+            .result-box .value {
+                font-size: 1.2rem;
+            }
+            .financial-alerts ul li {
+                font-size: 0.85rem;
+            }
+            .button-group button {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+            .finance-section h2 {
+                font-size: 1.6rem;
+            }
+            .results-grid, .price-simulator-grid {
+                grid-template-columns: 1fr; /* Uma coluna em telas muito pequenas */
+            }
+            .price-simulator-grid .result-box {
+                grid-column: span 1;
+            }
+            .button-group button {
+                margin: 0.5rem 0;
+                width: 100%;
+            }
+        }
+    </style>
+<nav style="
+    background: linear-gradient(90deg, rgb(144, 238, 144), rgb(34, 139, 34));
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+">
+  <ul style="
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      gap: 30px;
+  ">
+    <li><a href="/inicio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Início</a></li>
+    <li><a href="/planejamento" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Planejamento</a></li>
+    <li><a href="/financeiro" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Financeiro</a></li>
+    <li><a href="/marketing" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Marketing</a></li>
+    <li><a href="/seja-socio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Seja Sócio</a></li>
+    <li><a href="/fornecedor" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Fornecedores</a></li>
+  </ul>
+</nav>
+
+
+
+
+
+</head>
+<body>
+    <div id="root">
+        <!-- Cabeçalho Principal -->
+        <header class="header">
+            <h1>Plan Way</h1>
+            <p>Sua gestão financeira simplificada e inteligente.</p>
+        </header>
+
+        <!-- Seção Principal de Conteúdo -->
+        <main class="main-content">
+            <div class="finance-section">
+                <h2>Gestão Financeira Completa</h2>
+                <p>Organize, acompanhe e projete as finanças do seu negócio com nossas ferramentas.</p>
+
+                <!-- Seção de Balanço Financeiro Principal -->
+                <h3>Balanço e Indicadores Principais</h3>
+                <div class="form-group">
+                    <label for="inputRevenue">Faturamento Total (Mês):</label>
+                    <input type="number" id="inputRevenue" placeholder="R$ 0,00" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="inputExpenses">Despesas Totais (Mês):</label>
+                    <input type="number" id="inputExpenses" placeholder="R$ 0,00" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="inputPreviousRevenue">Faturamento do Mês Passado:</label>
+                    <input type="number" id="inputPreviousRevenue" placeholder="R$ 0,00" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="inputSalesCount">Número de Vendas/Transações:</label>
+                    <input type="number" id="inputSalesCount" placeholder="0" min="0" step="1">
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-box">
+                        <span class="label">Lucro/Prejuízo:</span>
+                        <span class="value" id="displayProfit">R$ 0,00</span>
+                    </div>
+                    <div class="result-box">
+                        <span class="label">Ticket Médio:</span>
+                        <span class="value" id="displayAverageTicket">R$ 0,00</span>
+                    </div>
+                    <div class="result-box">
+                        <span class="label">Crescimento Mensal:</span>
+                        <span class="value" id="displayGrowth">0%</span>
+                    </div>
+                </div>
+
+                <!-- Alertas Inteligentes de Saúde Financeira -->
+                <div class="financial-alerts">
+                    <h4>Alertas e Saúde Financeira:</h4>
+                    <ul id="financialAlertsList">
+                        <li>Preencha os campos para ver a análise de saúde financeira.</li>
+                    </ul>
+                </div>
+
+                <!-- Gráficos de Acompanhamento (Placeholders) -->
+                <h3>Acompanhamento Visual</h3>
+                <div class="chart-placeholder">
+                    <span>Gráfico de Faturamento vs. Despesas (Simulado)</span>
+                </div>
+                <div class="chart-placeholder">
+                    <span>Gráfico de Crescimento Mensal (Simulado)</span>
+                </div>
+
+                <!-- Seção de Ponto de Equilíbrio -->
+                <h3>Ponto de Equilíbrio</h3>
+                <p>Calcule o volume de vendas necessário para cobrir todos os seus custos.</p>
+                <div class="form-group">
+                    <label for="fixedCosts">Custos Fixos Totais (Mês):</label>
+                    <input type="number" id="fixedCosts" placeholder="R$ 0,00" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="variableCostPerUnit">Custo Variável por Unidade/Serviço:</label>
+                    <input type="number" id="variableCostPerUnit" placeholder="R$ 0,00" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="salesPricePerUnit">Preço de Venda por Unidade/Serviço:</label>
+                    <input type="number" id="salesPricePerUnit" placeholder="R$ 0,00" min="0">
+                </div>
+                <div class="results-grid">
+                    <div class="result-box">
+                        <span class="label">Ponto de Equilíbrio (unidades):</span>
+                        <span class="value" id="displayBreakEvenUnits">0</span>
+                    </div>
+                    <div class="result-box">
+                        <span class="label">Ponto de Equilíbrio (R$):</span>
+                        <span class="value" id="displayBreakEvenRevenue">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <!-- Simulador de Preços -->
+                <h3>Simulador de Preços</h3>
+                <p>Descubra o preço ideal para seus produtos ou serviços com base no custo e margem desejada.</p>
+                <div class="price-simulator-grid">
+                    <div class="input-group">
+                        <label for="simCost">Custo do Produto/Serviço:</label>
+                        <input type="number" id="simCost" placeholder="R$ 0,00" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="simMargin">Margem de Lucro Desejada (%):</label>
+                        <input type="number" id="simMargin" placeholder="Ex: 30" min="0" max="100">
+                    </div>
+                    <div class="result-box price-simulator-result">
+                        <span class="label">Preço de Venda Sugerido:</span>
+                        <span class="value" id="displaySuggestedPrice">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <!-- Seção de Projeções Financeiras (Simplificado) -->
+                <h3>Projeções Financeiras (Simulador Básico)</h3>
+                <p>Estime o futuro do seu faturamento com base em uma taxa de crescimento.</p>
+                <div class="form-group">
+                    <label for="initialProjectionRevenue">Faturamento Atual (para projeção):</label>
+                    <input type="number" id="initialProjectionRevenue" placeholder="R$ 0,00" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="monthlyGrowthRate">% Crescimento Mensal Esperado:</label>
+                    <input type="number" id="monthlyGrowthRate" placeholder="Ex: 5" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="projectionMonths">Meses para Projeção:</label>
+                    <input type="number" id="projectionMonths" placeholder="Ex: 6" min="1" step="1">
+                </div>
+                <div class="results-grid">
+                    <div class="result-box">
+                        <span class="label">Faturamento Projetado (Após <span id="projMonthsDisplay">0</span> meses):</span>
+                        <span class="value" id="displayProjectedRevenue">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="button-group">
+                    <button id="calculateAllBtn">Calcular Tudo</button>
+                    <button id="clearAllBtn">Limpar Tudo</button>
+                    <button id="generateFinancialReportBtn">Gerar Relatório Financeiro</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <p>&copy; 2025 Plan Way. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Referências aos Elementos HTML ---
+        const inputRevenue = document.getElementById('inputRevenue');
+        const inputExpenses = document.getElementById('inputExpenses');
+        const inputPreviousRevenue = document.getElementById('inputPreviousRevenue');
+        const inputSalesCount = document.getElementById('inputSalesCount');
+
+        const displayProfit = document.getElementById('displayProfit');
+        const displayAverageTicket = document.getElementById('displayAverageTicket');
+        const displayGrowth = document.getElementById('displayGrowth');
+
+        const financialAlertsList = document.getElementById('financialAlertsList');
+
+        const fixedCostsInput = document.getElementById('fixedCosts');
+        const variableCostPerUnitInput = document.getElementById('variableCostPerUnit');
+        const salesPricePerUnitInput = document.getElementById('salesPricePerUnit');
+        const displayBreakEvenUnits = document.getElementById('displayBreakEvenUnits');
+        const displayBreakEvenRevenue = document.getElementById('displayBreakEvenRevenue');
+
+        const simCostInput = document.getElementById('simCost');
+        const simMarginInput = document.getElementById('simMargin');
+        const displaySuggestedPrice = document.getElementById('displaySuggestedPrice');
+
+        const initialProjectionRevenueInput = document.getElementById('initialProjectionRevenue');
+        const monthlyGrowthRateInput = document.getElementById('monthlyGrowthRate');
+        const projectionMonthsInput = document.getElementById('projectionMonths');
+        const projMonthsDisplay = document.getElementById('projMonthsDisplay');
+        const displayProjectedRevenue = document.getElementById('displayProjectedRevenue');
+
+        const calculateAllBtn = document.getElementById('calculateAllBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const generateFinancialReportBtn = document.getElementById('generateFinancialReportBtn');
+
+        // --- Funções de Utilitário ---
+
+        /**
+         * Exibe uma mensagem flutuante na tela para feedback do usuário.
+         * @param {string} texto - O texto da mensagem a ser exibida.
+         * @param {number} duracao - Duração em milissegundos para a mensagem permanecer (padrão: 3000ms).
+         */
+        function exibirMensagem(texto, duracao = 3000) {
+            let mensagemDiv = document.querySelector('.message-box');
+            if (!mensagemDiv) {
+                mensagemDiv = document.createElement('div');
+                mensagemDiv.classList.add('message-box');
+                document.body.appendChild(mensagemDiv);
+            }
+
+            mensagemDiv.textContent = texto;
+            mensagemDiv.classList.add('show');
+
+            setTimeout(() => {
+                mensagemDiv.classList.remove('show');
+                setTimeout(() => {
+                    if (!mensagemDiv.classList.contains('show')) {
+                        mensagemDiv.remove();
+                    }
+                }, 500);
+            }, duracao);
+        }
+
+        /**
+         * Formata um número para o formato de moeda Real Brasileiro (R$).
+         * @param {number} value - O valor numérico a ser formatado.
+         * @returns {string} O valor formatado como moeda.
+         */
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        /**
+         * Formata um número para porcentagem.
+         * @param {number} value - O valor numérico a ser formatado.
+         * @returns {string} O valor formatado como porcentagem.
+         */
+        function formatPercentage(value) {
+            return value.toFixed(2).replace('.', ',') + '%';
+        }
+
+        // --- Funções de Cálculo Financeiro ---
+
+        /**
+         * Calcula e exibe Lucro/Prejuízo, Ticket Médio e Crescimento Mensal.
+         */
+        function calculateMainIndicators() {
+            const revenue = parseFloat(inputRevenue.value) || 0;
+            const expenses = parseFloat(inputExpenses.value) || 0;
+            const previousRevenue = parseFloat(inputPreviousRevenue.value) || 0;
+            const salesCount = parseInt(inputSalesCount.value) || 0;
+
+            const profit = revenue - expenses;
+            displayProfit.textContent = formatCurrency(profit);
+            displayProfit.className = 'value ' + (profit >= 0 ? 'positive' : 'negative');
+
+            const averageTicket = salesCount > 0 ? revenue / salesCount : 0;
+            displayAverageTicket.textContent = formatCurrency(averageTicket);
+
+            let growthPercentage = 0;
+            if (previousRevenue > 0) {
+                growthPercentage = ((revenue - previousRevenue) / previousRevenue) * 100;
+                displayGrowth.textContent = formatPercentage(growthPercentage);
+                displayGrowth.className = 'value ' + (growthPercentage >= 0 ? 'positive' : 'negative');
+            } else if (revenue > 0) {
+                 displayGrowth.textContent = 'Novo Faturamento';
+                 displayGrowth.className = 'value neutral';
+            } else {
+                 displayGrowth.textContent = '0%';
+                 displayGrowth.className = 'value neutral';
+            }
+
+            updateFinancialAlerts(revenue, expenses, profit);
+        }
+
+        /**
+         * Atualiza os alertas de saúde financeira com base nos indicadores.
+         * @param {number} revenue - Faturamento atual.
+         * @param {number} expenses - Despesas atuais.
+         * @param {number} profit - Lucro/Prejuízo atual.
+         */
+        function updateFinancialAlerts(revenue, expenses, profit) {
+            financialAlertsList.innerHTML = '';
+            let hasAlerts = false;
+
+            if (revenue === 0 && expenses === 0) {
+                financialAlertsList.innerHTML = '<li>Preencha os campos para ver a análise de saúde financeira.</li>';
+                return;
+            }
+
+            if (profit < 0) {
+                financialAlertsList.innerHTML += '<li class="alert-danger">❗ Seu negócio está operando com prejuízo. Analise suas despesas ou revise a estratégia de preços.</li>';
+                hasAlerts = true;
+            } else if (profit === 0) {
+                financialAlertsList.innerHTML += '<li class="alert-warning">⚠️ Seu negócio está no zero a zero. Busque formas de aumentar o lucro.</li>';
+                hasAlerts = true;
+            }
+
+            if (expenses > (revenue * 0.7)) { // Se despesas forem mais de 70% do faturamento
+                financialAlertsList.innerHTML += '<li class="alert-warning">⚠️ Suas despesas estão altas em relação ao faturamento. Considere otimizar custos.</li>';
+                hasAlerts = true;
+            }
+
+            if (profit > (revenue * 0.2)) { // Se lucro for mais de 20% do faturamento
+                financialAlertsList.innerHTML += '<li class="alert-info">✅ Excelente! Sua margem de lucro está saudável. Continue otimizando!</li>';
+                hasAlerts = true;
+            }
+
+            if (!hasAlerts) {
+                 financialAlertsList.innerHTML = '<li>🎉 A saúde financeira do seu negócio parece ótima!</li>';
+            }
+        }
+
+        /**
+         * Calcula e exibe o Ponto de Equilíbrio.
+         */
+        function calculateBreakEvenPoint() {
+            const fixedCosts = parseFloat(fixedCostsInput.value) || 0;
+            const variableCostPerUnit = parseFloat(variableCostPerUnitInput.value) || 0;
+            const salesPricePerUnit = parseFloat(salesPricePerUnitInput.value) || 0;
+
+            if (salesPricePerUnit <= variableCostPerUnit) {
+                displayBreakEvenUnits.textContent = 'Inválido';
+                displayBreakEvenRevenue.textContent = 'R$ 0,00';
+                return;
+            }
+
+            const contributionMarginPerUnit = salesPricePerUnit - variableCostPerUnit;
+            const breakEvenUnits = fixedCosts / contributionMarginPerUnit;
+            const breakEvenRevenue = breakEvenUnits * salesPricePerUnit;
+
+            displayBreakEvenUnits.textContent = breakEvenUnits.toFixed(0);
+            displayBreakEvenRevenue.textContent = formatCurrency(breakEvenRevenue);
+        }
+
+        /**
+         * Simula o preço de venda com base no custo e margem desejada.
+         */
+        function simulatePrice() {
+            const cost = parseFloat(simCostInput.value) || 0;
+            const margin = parseFloat(simMarginInput.value) || 0; // em porcentagem
+
+            if (cost <= 0 || margin < 0) {
+                displaySuggestedPrice.textContent = formatCurrency(0);
+                return;
+            }
+
+            // Preço de Venda = Custo / (1 - Margem/100)
+            const salesPrice = cost / (1 - (margin / 100));
+            displaySuggestedPrice.textContent = formatCurrency(salesPrice);
+        }
+
+        /**
+         * Realiza projeções financeiras simples.
+         */
+        function calculateFinancialProjections() {
+            let currentRevenue = parseFloat(initialProjectionRevenueInput.value) || 0;
+            const growthRate = (parseFloat(monthlyGrowthRateInput.value) || 0) / 100; // Converte para decimal
+            const months = parseInt(projectionMonthsInput.value) || 0;
+
+            if (months === 0) {
+                displayProjectedRevenue.textContent = formatCurrency(currentRevenue);
+                projMonthsDisplay.textContent = '0';
+                return;
+            }
+
+            let projectedRevenue = currentRevenue;
+            for (let i = 0; i < months; i++) {
+                projectedRevenue *= (1 + growthRate);
+            }
+
+            projMonthsDisplay.textContent = months;
+            displayProjectedRevenue.textContent = formatCurrency(projectedRevenue);
+        }
+
+        /**
+         * Limpa todos os campos e resultados da aba Financeiro.
+         */
+        function clearAllFields() {
+            inputRevenue.value = '';
+            inputExpenses.value = '';
+            inputPreviousRevenue.value = '';
+            inputSalesCount.value = '';
+            fixedCostsInput.value = '';
+            variableCostPerUnitInput.value = '';
+            salesPricePerUnitInput.value = '';
+            simCostInput.value = '';
+            simMarginInput.value = '';
+            initialProjectionRevenueInput.value = '';
+            monthlyGrowthRateInput.value = '';
+            projectionMonthsInput.value = '';
+
+            // Reseta displays
+            displayProfit.textContent = formatCurrency(0);
+            displayProfit.className = 'value positive';
+            displayAverageTicket.textContent = formatCurrency(0);
+            displayGrowth.textContent = '0%';
+            displayGrowth.className = 'value neutral';
+            displayBreakEvenUnits.textContent = '0';
+            displayBreakEvenRevenue.textContent = formatCurrency(0);
+            displaySuggestedPrice.textContent = formatCurrency(0);
+            displayProjectedRevenue.textContent = formatCurrency(0);
+            projMonthsDisplay.textContent = '0';
+
+            financialAlertsList.innerHTML = '<li>Preencha os campos para ver a análise de saúde financeira.</li>';
+
+            exibirMensagem('Todos os campos limpos!', 2000);
+        }
+
+        /**
+         * Gera um relatório financeiro em PDF (simulado).
+         */
+        function generateFinancialReport() {
+            // Re-calcula para garantir dados atualizados no relatório
+            calculateMainIndicators();
+            calculateBreakEvenPoint();
+            simulatePrice();
+            calculateFinancialProjections();
+
+            const revenue = parseFloat(inputRevenue.value) || 0;
+            const expenses = parseFloat(inputExpenses.value) || 0;
+            const profit = revenue - expenses;
+            const previousRevenue = parseFloat(inputPreviousRevenue.value) || 0;
+            const salesCount = parseInt(inputSalesCount.value) || 0;
+            const averageTicket = salesCount > 0 ? revenue / salesCount : 0;
+
+            let growthText = 'N/A';
+            if (previousRevenue > 0) {
+                const growthPercentage = ((revenue - previousRevenue) / previousRevenue) * 100;
+                growthText = `${growthPercentage.toFixed(2).replace('.', ',')}%`;
+                if (growthPercentage > 0) growthText = `+${growthText}`;
+            } else if (revenue > 0) {
+                 growthText = `R$ ${revenue.toFixed(2).replace('.', ',')} (Primeiro Registro)`;
+            }
+
+            const fixedCosts = parseFloat(fixedCostsInput.value) || 0;
+            const variableCostPerUnit = parseFloat(variableCostPerUnitInput.value) || 0;
+            const salesPricePerUnit = parseFloat(salesPricePerUnitInput.value) || 0;
+            const breakEvenUnits = (salesPricePerUnit > variableCostPerUnit) ? (fixedCosts / (salesPricePerUnit - variableCostPerUnit)).toFixed(0) : 'Inválido';
+            const breakEvenRevenue = (salesPricePerUnit > variableCostPerUnit) ? (parseFloat(breakEvenUnits) * salesPricePerUnit) : 0;
+
+            const simCost = parseFloat(simCostInput.value) || 0;
+            const simMargin = parseFloat(simMarginInput.value) || 0;
+            const suggestedPrice = (simCost > 0 && simMargin >= 0) ? simCost / (1 - (simMargin / 100)) : 0;
+
+            let projectedRevenue = parseFloat(initialProjectionRevenueInput.value) || 0;
+            const growthRateProjection = (parseFloat(monthlyGrowthRateInput.value) || 0) / 100;
+            const projectionMonths = parseInt(projectionMonthsInput.value) || 0;
+            for (let i = 0; i < projectionMonths; i++) {
+                projectedRevenue *= (1 + growthRateProjection);
+            }
+
+            // Coleta os alertas atuais
+            let alertsHtml = '<ul>';
+            if (financialAlertsList.children.length > 0) {
+                Array.from(financialAlertsList.children).forEach(item => {
+                    alertsHtml += `<li>${item.textContent}</li>`;
+                });
+            } else {
+                 alertsHtml += `<li>Nenhum alerta disponível.</li>`;
+            }
+            alertsHtml += '</ul>';
+
+
+            let reportContent = `
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Relatório Financeiro - Plan Way</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        body { font-family: 'Inter', sans-serif; margin: 20px; color: #333; line-height: 1.6; }
+                        h1 { color: rgb(144, 238, 144); text-align: center; margin-bottom: 25px; border-bottom: 2px solid rgb(180, 255, 180); padding-bottom: 10px; }
+                        h2 { color: #555; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 30px; }
+                        .section-box { background-color: #f9f9f9; border: 1px solid rgb(180, 255, 180); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+                        p strong { color: rgb(144, 238, 144); }
+                        ul { list-style: disc; padding-left: 20px; }
+                        ul.no-bullets { list-style: none; padding-left: 0; }
+                        ul.no-bullets li { margin-bottom: 5px; }
+                        .positive { color: green; font-weight: bold; }
+                        .negative { color: red; font-weight: bold; }
+                        .neutral { color: orange; font-weight: bold; }
+                        .alert-danger { color: red; }
+                        .alert-warning { color: orange; }
+                        .alert-info { color: green; }
+                        @media print {
+                            body { margin: 0; }
+                            .section-box { box-shadow: none; border: 1px solid #eee; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Relatório Financeiro - Plan Way</h1>
+
+                    <div class="section-box">
+                        <h2>Indicadores Financeiros Principais</h2>
+                        <p><strong>Faturamento Total (Mês):</strong> ${formatCurrency(revenue)}</p>
+                        <p><strong>Despesas Totais (Mês):</strong> ${formatCurrency(expenses)}</p>
+                        <p><strong>Lucro/Prejuízo:</strong> <span class="${profit >= 0 ? 'positive' : 'negative'}">${formatCurrency(profit)}</span></p>
+                        <p><strong>Número de Vendas/Transações:</strong> ${salesCount}</p>
+                        <p><strong>Ticket Médio:</strong> ${formatCurrency(averageTicket)}</p>
+                        <p><strong>Crescimento Mensal:</strong> <span class="${growthText.includes('+') ? 'positive' : growthText.includes('-') ? 'negative' : 'neutral'}">${growthText}</span></p>
+                    </div>
+
+                    <div class="section-box">
+                        <h2>Alertas de Saúde Financeira</h2>
+                        ${alertsHtml}
+                    </div>
+
+                    <div class="section-box">
+                        <h2>Ponto de Equilíbrio</h2>
+                        <p><strong>Custos Fixos Totais:</strong> ${formatCurrency(fixedCosts)}</p>
+                        <p><strong>Custo Variável por Unidade:</strong> ${formatCurrency(variableCostPerUnit)}</p>
+                        <p><strong>Preço de Venda por Unidade:</strong> ${formatCurrency(salesPricePerUnit)}</p>
+                        <p><strong>Ponto de Equilíbrio (unidades):</strong> ${breakEvenUnits}</p>
+                        <p><strong>Ponto de Equilíbrio (Faturamento):</strong> ${formatCurrency(breakEvenRevenue)}</p>
+                    </div>
+
+                    <div class="section-box">
+                        <h2>Simulador de Preços</h2>
+                        <p><strong>Custo do Produto/Serviço:</strong> ${formatCurrency(simCost)}</p>
+                        <p><strong>Margem de Lucro Desejada:</strong> ${simMargin}%</p>
+                        <p><strong>Preço de Venda Sugerido:</strong> ${formatCurrency(suggestedPrice)}</p>
+                    </div>
+
+                    <div class="section-box">
+                        <h2>Projeções Financeiras</h2>
+                        <p><strong>Faturamento Inicial:</strong> ${formatCurrency(initialProjectionRevenueInput.value)}</p>
+                        <p><strong>Crescimento Mensal Esperado:</strong> ${formatPercentage(growthRateProjection * 100)}</p>
+                        <p><strong>Meses Projetados:</strong> ${projectionMonths}</p>
+                        <p><strong>Faturamento Projetado:</strong> ${formatCurrency(projectedRevenue)}</p>
+                    </div>
+
+                </body>
+                </html>
+            `;
+
+            const reportWindow = window.open('', '_blank', 'width=800,height=700,scrollbars=yes');
+            if (reportWindow) {
+                reportWindow.document.write(reportContent);
+                reportWindow.document.close();
+                reportWindow.focus();
+                setTimeout(() => {
+                    reportWindow.print();
+                }, 500);
+            } else {
+                exibirMensagem('Não foi possível abrir a janela do relatório. Verifique se pop-ups estão bloqueados.', 5000);
+            }
+        }
+
+        // --- Inicialização e Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa todos os cálculos e displays ao carregar a página
+            calculateMainIndicators();
+            calculateBreakEvenPoint();
+            simulatePrice();
+            calculateFinancialProjections();
+        });
+
+        // Event listeners para os campos de input
+        inputRevenue.addEventListener('input', calculateMainIndicators);
+        inputExpenses.addEventListener('input', calculateMainIndicators);
+        inputPreviousRevenue.addEventListener('input', calculateMainIndicators);
+        inputSalesCount.addEventListener('input', calculateMainIndicators);
+
+        fixedCostsInput.addEventListener('input', calculateBreakEvenPoint);
+        variableCostPerUnitInput.addEventListener('input', calculateBreakEvenPoint);
+        salesPricePerUnitInput.addEventListener('input', calculateBreakEvenPoint);
+
+        simCostInput.addEventListener('input', simulatePrice);
+        simMarginInput.addEventListener('input', simulatePrice);
+
+        initialProjectionRevenueInput.addEventListener('input', calculateFinancialProjections);
+        monthlyGrowthRateInput.addEventListener('input', calculateFinancialProjections);
+        projectionMonthsInput.addEventListener('input', () => {
+             projMonthsDisplay.textContent = projectionMonthsInput.value || '0';
+             calculateFinancialProjections();
+        });
+
+
+        // Botões de ação
+        calculateAllBtn.addEventListener('click', () => {
+            calculateMainIndicators();
+            calculateBreakEvenPoint();
+            simulatePrice();
+            calculateFinancialProjections();
+            exibirMensagem('Todos os cálculos atualizados!', 2000);
+        });
+        clearAllBtn.addEventListener('click', clearAllFields);
+        generateFinancialReportBtn.addEventListener('click', generateFinancialReport);
+
+        // JavaScript para rolagem suave (mantido para consistência)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId === '#topo' ? 'body' : targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

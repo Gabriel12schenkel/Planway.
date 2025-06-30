@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Site{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+    <!-- Navbar padrão -->
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/planejamento">Planejamento</a></li>
+            <li><a href="/financeiro">Financeiro</a></li>
+            <li><a href="/marketing">Marketing</a></li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo específico de cada página -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>© 2025 Meu Site - Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

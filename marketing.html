@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Estratégico | Empreenda+</title>
+    <style>
+        /* Reset e Estilos Globais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Cabeçalho */
+        .header {
+            background-color: rgb(144, 238, 144);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            color: white;
+        }
+        
+        /* Container Principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Seções */
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            color: rgb(144, 238, 144);
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+            border-bottom: 2px solid rgba(144, 238, 144, 0.3);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        /* Cards de Estratégias */
+        .strategies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .strategy-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .strategy-card h3 {
+            color: rgb(144, 238, 144);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .strategy-card .category {
+            display: inline-block;
+            background-color: rgba(144, 238, 144, 0.2);
+            color: #333;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .strategy-card p {
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        /* Lista de Ideias */
+        .ideas-list {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 1.5rem;
+        }
+        
+        .idea-item {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .idea-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .idea-icon {
+            color: rgb(144, 238, 144);
+            font-weight: bold;
+            margin-right: 1rem;
+            min-width: 25px;
+        }
+        
+        /* Perguntas Orientadoras */
+        .questions-container {
+            background-color: rgba(144, 238, 144, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid rgb(144, 238, 144);
+        }
+        
+        .question-item {
+            margin-bottom: 1rem;
+        }
+        
+        .question-item strong {
+            color: rgb(144, 238, 144);
+        }
+        
+        /* Calculadora ROI */
+        .calculator {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: rgb(144, 238, 144);
+        }
+        
+        button {
+            background-color: rgb(144, 238, 144);
+            color: #333;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        button:hover {
+            background-color: rgba(144, 238, 144, 0.8);
+        }
+        
+        .results {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(144, 238, 144, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid rgb(144, 238, 144);
+        }
+        
+        .results h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .highlight {
+            font-weight: 600;
+            color: rgb(144, 238, 144);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .strategies-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+  <nav style="
+    background: linear-gradient(90deg, rgb(144, 238, 144), rgb(34, 139, 34));
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+">
+  <ul style="
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      gap: 30px;
+  ">
+    <li><a href="/inicio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Início</a></li>
+    <li><a href="/planejamento" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Planejamento</a></li>
+    <li><a href="/financeiro" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Financeiro</a></li>
+    <li><a href="/marketing" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Marketing</a></li>
+    <li><a href="/seja-socio" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Seja Sócio</a></li>
+    <li><a href="/fornecedor" style="text-decoration: none; color: white; font-weight: bold; font-size: 16px;">Fornecedores</a></li>
+  </ul>
+</nav>
+
+
+
+
+
+</head>
+<body>
+    <header class="header">
+        <h1>Marketing para Empreendedores</h1>
+        <p>Estratégias comprovadas para alavancar seu negócio</p>
+    </header>
+    
+    <div class="container">
+        <!-- Seção de Estratégias Validadas -->
+        <div class="section">
+            <h2 class="section-title">Estratégias Validadas</h2>
+            <p>Confira táticas de marketing que realmente funcionam no mercado, organizadas por categoria:</p>
+            
+            <div class="strategies-grid">
+                <!-- Estratégia 1 -->
+                <div class="strategy-card">
+                    <span class="category">Marketing Digital</span>
+                    <h3>SEO Básico para Pequenos Negócios</h3>
+                    <p>Otimize seu site com palavras-chave relevantes para seu público, títulos descritivos e conteúdo de qualidade.</p>
+                    <p><strong>Dica:</strong> Use ferramentas gratuitas como Google Keyword Planner para pesquisar termos.</p>
+                </div>
+                
+                <!-- Estratégia 2 -->
+                <div class="strategy-card">
+                    <span class="category">Redes Sociais</span>
+                    <h3>Conteúdo de Valor no Instagram</h3>
+                    <p>Crie posts que eduquem, entretenham ou inspirem seu público, não apenas venda.</p>
+                    <p><strong>Exemplo:</strong> "5 dicas para economizar em..." (relacionado ao seu produto).</p>
+                </div>
+                
+                <!-- Estratégia 3 -->
+                <div class="strategy-card">
+                    <span class="category">Boca a Boca</span>
+                    <h3>Programa de Indicação</h3>
+                    <p>Ofereça benefícios para clientes que indicarem seu negócio (desconto, brinde ou serviço extra).</p>
+                    <p><strong>Como fazer:</strong> "Indique 3 amigos e ganhe 20% de desconto na próxima compra."</p>
+                </div>
+                
+                <!-- Estratégia 4 -->
+                <div class="strategy-card">
+                    <span class="category">Influenciadores</span>
+                    <h3>Micro-influenciadores Locais</h3>
+                    <p>Parceria com influenciadores pequenos (1k-10k seguidores) mas com engajamento alto na sua região.</p>
+                    <p><strong>Custo-benefício:</strong> Muitos aceitam produtos em troca de divulgação.</p>
+                </div>
+                
+                <!-- Estratégia 5 -->
+                <div class="strategy-card">
+                    <span class="category">Marketing Físico</span>
+                    <h3>Flyers Estratégicos</h3>
+                    <p>Distribua materiais impressos em locais onde seu público-alvo frequenta (não apenas na rua).</p>
+                    <p><strong>Onde:</strong> Parceiros complementares, eventos locais, associações de bairro.</p>
+                </div>
+                
+                <!-- Estratégia 6 -->
+                <div class="strategy-card">
+                    <span class="category">E-mail Marketing</span>
+                    <h3>Sequência de Boas-Vindas</h3>
+                    <p>Crie uma série de 3-5 e-mails automáticos para novos clientes/subscritores, apresentando seu valor.</p>
+                    <p><strong>Estrutura:</strong> 1) Agradecimento, 2) Sua história, 3) Dica útil, 4) Oferta especial.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seção de Ideias com Baixo Investimento -->
+        <div class="section">
+            <h2 class="section-title">Divulgação com Baixo Investimento</h2>
+            <p>Ações criativas que exigem mais tempo do que dinheiro:</p>
+            
+            <div class="ideas-list">
+                <div class="idea-item">
+                    <div class="idea-icon">✓</div>
+                    <div>Parcerias com outros pequenos negócios para cross-promotion (você divulga eles, eles divulgam você)</div>
+                </div>
+                
+                <div class="idea-item">
+                    <div class="idea-icon">✓</div>
+                    <div>Participação em grupos locais no Facebook/WhatsApp oferecendo conteúdo útil (sem spam)</div>
+                </div>
+                
+                <div class="idea-item">
+                    <div class="idea-icon">✓</div>
+                    <div>Criação de um blog com artigos que respondam dúvidas comuns do seu público</div>
+                </div>
+                
+                <div class="idea-item">
+                    <div class="idea-icon">✓</div>
+                    <div>Organizar um evento gratuito (workshop, demonstração) para mostrar seu expertise</div>
+                </div>
+                
+                <div class="idea-item">
+                    <div class="idea-icon">✓</div>
+                    <div>Sistema de recompensas para check-in no Google/Facebook (ex: "Mostre que nos visitou e ganhe...")</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seção de Perguntas Orientadoras -->
+        <div class="section">
+            <h2 class="section-title">Reflexão sobre seu Marketing</h2>
+            <p>Perguntas para ajudar a avaliar e melhorar sua estratégia:</p>
+            
+            <div class="questions-container">
+                <div class="question-item">
+                    <strong>1.</strong> Quem é exatamente seu cliente ideal? Onde ele passa tempo online/offline?
+                </div>
+                
+                <div class="question-item">
+                    <strong>2.</strong> Que problema específico seu produto/serviço resolve para o cliente?
+                </div>
+                
+                <div class="question-item">
+                    <strong>3.</strong> Como você está comunicando seu diferencial em relação à concorrência?
+                </div>
+                
+                <div class="question-item">
+                    <strong>4.</strong> Quais canais de marketing estão trazendo mais resultados? Por quê?
+                </div>
+                
+                <div class="question-item">
+                    <strong>5.</strong> Como você pode criar mais valor para seus clientes antes mesmo da venda?
+                </div>
+                
+                <div class="question-item">
+                    <strong>6.</strong> Que métricas você acompanha para medir o sucesso do seu marketing?
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seção da Calculadora de ROI -->
+        <div class="section">
+            <h2 class="section-title">Calculadora de ROI de Campanha</h2>
+            <p>Calcule o retorno sobre o investimento em suas ações de marketing:</p>
+            
+            <div class="calculator">
+                <div class="form-group">
+                    <label for="campaignInvestment">Investimento Total na Campanha (R$):</label>
+                    <input type="number" id="campaignInvestment" placeholder="Ex: 1000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="revenueGenerated">Receita Gerada pela Campanha (R$):</label>
+                    <input type="number" id="revenueGenerated" placeholder="Ex: 3500">
+                </div>
+                
+                <button onclick="calculateROI()">Calcular ROI</button>
+                
+                <div id="roiResult" class="results" style="display: none;">
+                    <h3>Resultado:</h3>
+                    <p>ROI: <span id="roiPercentage" class="highlight">0</span>%</p>
+                    <p>Retorno Líquido: R$ <span id="netReturn" class="highlight">0.00</span></p>
+                    <p>Para cada R$1 investido, você ganhou R$<span id="returnPerReal" class="highlight">0.00</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Calculadora de ROI
+        function calculateROI() {
+            const investment = parseFloat(document.getElementById('campaignInvestment').value) || 0;
+            const revenue = parseFloat(document.getElementById('revenueGenerated').value) || 0;
+            
+            if (investment === 0) {
+                alert("Por favor, insira um valor de investimento maior que zero.");
+                return;
+            }
+            
+            const netReturn = revenue - investment;
+            const roi = (netReturn / investment) * 100;
+            const returnPerReal = (revenue / investment).toFixed(2);
+            
+            document.getElementById('roiPercentage').textContent = roi.toFixed(2);
+            document.getElementById('netReturn').textContent = netReturn.toFixed(2);
+            document.getElementById('returnPerReal').textContent = returnPerReal;
+            
+            document.getElementById('roiResult').style.display = 'block';
+        }
+        
+        // Efeito de destaque ao passar o mouse nos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.strategy-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 8px 25px rgba(144, 238, 144, 0.2)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.05)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
